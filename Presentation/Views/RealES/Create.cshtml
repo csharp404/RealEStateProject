@@ -1,0 +1,307 @@
+﻿@model Presentation.ViewModels.RealESVM.CreateVM
+@{
+    Layout = "_Dashboard";
+   
+   var item = Model.Features;
+}
+<link rel="shortcut icon" type="image/x-icon" href="~/DbAssets/img/favicon.ico">
+
+<!-- ======= All CSS Plugins here ======== -->
+<link rel="stylesheet" href="~/DbAssets/css/plugins/swiper-bundle.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+<!-- Plugin css -->
+<link rel="stylesheet" href="~/DbAssets/css/vendor/bootstrap.min.css">
+<link rel="stylesheet" href="~/DbAssets/css/plugins/swiper-bundle.min.css">
+<link rel="stylesheet" href="~/DbAssets/css/plugins/glightbox.min.css">
+
+<!-- Custom Style CSS -->
+<link rel="stylesheet" href="~/DbAssets/css/style.css">
+<link rel="stylesheet" href="~/DbAssets/css/dashboard.css">
+<link rel="stylesheet" href="~/DbAssets/css/creat-listing.css">
+<link rel="stylesheet" href="~/DbAssets/css/dark.css">
+
+
+<div class="dashboard__container add__property--container">
+    <div class="add__property--heading mb-30">
+        <h2 class="add__property--heading__title">Add New Property</h2>
+        <p class="add__property--desc">We are glad to see you again!</p>
+    </div>
+    <form asp-action="Create" asp-controller="RealES" enctype="multipart/form-data">
+        <div class="add__property__inner d-flex">
+
+
+            <div class="add__property--step left">
+                <div class="add__property--step__inner">
+                    <div class="add__property--box mb-30">
+                        <h3 class="add__property--box__title mb-20">Create Listing</h3>
+                        <div class="add__property--form">
+                            <div class="row-6">
+                                <div class="col-12">
+                                    <div class="add__listing--input__box mb-20">
+                                        <label class="add__listing--input__label" asp-for="Name">Title</label>
+                                        <input class="add__listing--input__field" asp-for="Name" id="input1" placeholder="Your Name" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="add__listing--textarea__box mb-15">
+                                        <label class="add__listing--input__label" asp-for="Description">Description</label>
+                                        <textarea class="add__listing--textarea__field" asp-for="Description" id="input2" placeholder="Description"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="add__listing--input__box mb-20">
+                                        <label class="add__listing--input__label" asp-for="PhoneNumber">Phone Number</label>
+                                        <input class="add__listing--input__field" asp-for="PhoneNumber" id="PhoneNumber" placeholder="Your Phone Number" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="add__listing--input__box mb-20">
+                                        <label class="add__listing--input__label" asp-for="Email">Email</label>
+                                        <input class="add__listing--input__field" asp-for="Email" id="Email" placeholder="Your Email" type="email">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="add__listing--input__box mb-20">
+                                        <label class="add__listing--input__label">Type</label>
+                                        <div class="select position-relative">
+                                            <select class="add__listing--form__select" asp-items="@Model.CategoryListItems" asp-for="CategoryId">
+                                                <option selected="" value="">Select Type</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="add__listing--input__box mb-20">
+                                        <label class="add__listing--input__label" asp-for="Price">Price</label>
+                                        <input class="add__listing--input__field" id="input3" asp-for="Price" placeholder="Price" type="text">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="add__property--box">
+                        <h3 class="add__property--box__title mb-20">Location</h3>
+                        <div class="add__property--form">
+                            <div class="row">
+
+                              
+                                <div class="col-lg-12">
+                                    <div class="add__listing--input__box mb-20 col-lg-6">
+                                        <label class="add__listing--input__label"> Country</label>
+                                        <div class="select position-relative">
+                                            <select class="add__listing--form__select" asp-items="@Model.CountriesListItems" asp-for="CountryId" id="Country">
+                                                <option selected="" value="1">Select Country</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="add__listing--input__box mb-20 col-lg-6">
+                                        <label class="add__listing--input__label"> City</label>
+                                        <div class="select position-relative">
+                                            <select class="add__listing--form__select" asp-for="CityId" id="cities">
+                                                <option selected="" value="1">Select City</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="add__listing--input__box mb-20 col-lg-6">
+                                        <label class="add__listing--input__label"> Neighborhood</label>
+                                        <div class="select position-relative">
+                                            <select class="add__listing--form__select" asp-for="HoodId" id="hoods">
+                                                <option selected="" value="1">Select Neighborhood</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="add__property--step ">
+                <div class="add__property--box mb-30">
+                    <h3 class="add__property--box__title mb-20">Detailed Information</h3>
+                    <div class="add__property--form">
+
+                        <div class="row">
+                      
+                            <div class="col-lg-4">
+                                <div class="add__listing--input__box mb-20">
+                                    <label class="add__listing--input__label" asp-for="Area_Size">Area Size</label>
+                                    <input class="add__listing--input__field" id="Area_Size" asp-for="Area_Size" placeholder="Area Size" type="text">
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-4">
+                                <div class="add__listing--input__box mb-20">
+                                    <label class="add__listing--input__label" asp-for="N_Bedroom">Bedrooms</label>
+                                    <input class="add__listing--input__field" asp-for="N_Bedroom" id="N_Bedroom" placeholder="Bedrooms" type="text">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="add__listing--input__box mb-20">
+                                    <label class="add__listing--input__label" asp-for="N_Bathroom">Bathrooms</label>
+                                    <input class="add__listing--input__field" id="N_Bathroom" asp-for="N_Bathroom" placeholder="Bathrooms" type="text">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="add__listing--input__box mb-20">
+                                    <label class="add__listing--input__label" asp-for="Carage">Garages</label>
+                                    <input class="add__listing--input__field" asp-for="Carage" id="Carage" placeholder="Garages" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="add__listing--input__box mb-20">
+                                    <label class="add__listing--input__label" asp-for="YearBuilt">Year Built</label>
+                                    <input class="add__listing--input__field" asp-for="YearBuilt" id="YearBuilt" placeholder="Year Built" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="add__listing--input__box mb-20">
+                                    <label class="add__listing--input__label" asp-for="NRooms"> Rooms</label>
+                                    <input class="add__listing--input__field" asp-for="NRooms" id="NRooms" placeholder="Number of Rooms" type="text" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <h3 class="add__property--box__title pt-0">Amenities and Features</h3>
+                    <div class="advance__apeartment--inner d-flex justify-content-between">
+
+
+
+
+                        @for (int i = 0; i < item.Count;)
+                        {
+                            <ul class="interior__amenities--check">
+                                @for (int j = 0; j < 4; j++)
+                                {
+                                    <li class="interior__amenities--check__list">
+                                        <label class="interior__amenities--check__label" asp-for="@item[i].Name">@item[i].Name</label>
+                                        <input class="interior__amenities--check__input" id="@item[i].Id" asp-for="Features[i].Id" type="hidden">
+
+                                        <input class="interior__amenities--check__input" id="@item[i].Id" asp-for="Features[i].isSelected" type="checkbox">
+                                        <span class="interior__amenities--checkmark"></span>
+                                    </li>
+                                    i++;
+                                    if (i == item.Count)
+                                    {
+                                        break;
+                                    }
+                                }
+                            </ul>
+                        }
+
+
+                    </div>
+                </div>
+                <br />
+                <div class="add__property--box mb-30">
+                    <h3 class="add__property--box__title mb-20">Property media</h3>
+                    <div class="property__media--wrapper d-flex justify-content-between">
+                        <div class="row-6">
+                            <div class="browse__file--area position-relative">
+                                <button class="browse__file--btn">Choose File</button>
+                                <input class="browse__file--input__field" type="file" asp-for="ImageFiles" multiple>
+                                <input type="hidden" name="name" asp-for="IDRealES" />
+                                <input type="hidden" name="name" asp-for="IDAddress" />
+                                <input type="hidden" name="name" asp-for="IDRoom" />
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="justify-content-center align-items-center d-flex p-5">
+
+            <button type="submit" class="solid__btn add__property--btn">Save</button>
+        </div>
+    </form>
+</div>
+<script src="~/DbAssets/js/vendor/popper.js" defer="defer"></script>
+<script src="~/DbAssets/js/vendor/bootstrap.min.js" defer="defer"></script>
+<script src="~/DbAssets/js/plugins/swiper-bundle.min.js"></script>
+<script src="~/DbAssets/js/plugins/glightbox.min.js"></script>
+
+
+<!-- Customscript js -->
+<script src="~/DbAssets/js/script.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script >
+    $(document).ready(function () {
+        $('#Country').on('change', function () {
+            var countryid = $(this).val(); // Get the selected country ID from the dropdown
+            $.ajax({
+                url: "https://localhost:7091/RealES/GetCities?id=" + countryid,
+                type: "GET",
+                success: function (response) {
+                    $("#cities").empty();
+                    $("#hoods").empty(); // Clear existing options
+                    for (var i in response) {
+                        $("#cities").append("<option value='" + response[i].id + "'>" + response[i].name + "</option>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        $('#cities').on('change', function () {
+            var cityid = $(this).val(); // Get the selected country ID from the dropdown
+            $.ajax({
+                url: "https://localhost:7091/RealES/GetHoods?id=" + cityid,
+                type: "GET",
+                success: function (response) {
+                    $("#hoods").empty(); // Clear existing options
+                    for (var i in response) {
+                        $("#hoods").append("<option value='" + response[i].id + "'>" + response[i].name + "</option>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+
+
+
+</script>
+
+<!-- Dark to light js -->
+<script>
+    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+    if (localStorage.getItem("theme-color") === "dark" || (!("theme-color" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.getElementById("light__to--dark")?.classList.add("dark--version");
+    }
+    if (localStorage.getItem("theme-color") === "light") {
+        document.getElementById("light__to--dark")?.classList.remove("dark--version");
+    }
+</script>

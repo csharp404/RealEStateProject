@@ -1,0 +1,33 @@
+﻿@model ManageProfileVM 
+
+<div class="form-group">
+    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#M">Disable your account</a>
+</div>
+
+<div class="modal" id="M">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Making sure you are not drunk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure u want to delete your Account?</p>
+                <p>If you are pretty sure Enter your password to proceed</p>
+                <form asp-action="DeleteAccount" asp-controller="Account" >
+                    <input type="password" autocomplete="off" class="form-control" required placeholder="Enter password" asp-for="Password" />
+                    <br />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Delete Account" class="btn btn-primary" >
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>

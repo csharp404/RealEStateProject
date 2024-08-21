@@ -1,0 +1,139 @@
+﻿@model Presentation.ViewModels.UserVms.ManageProfileVM
+
+@{
+    ViewData["Title"] = "Manage";
+}
+
+
+
+@if (Model.ValidationMessage != null)
+{
+    <div id="myToast" style=" position: absolute;
+    top: 5rem;
+    left: 0rem;
+    z-index: 1050;" class="toast position-absolute p-0 " role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-danger m-0">
+            <strong class="me-auto ">Alert</strong>
+            <small class="text-light">@DateTime.Now.ToShortTimeString()</small>
+            <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="toast-body">
+            @Model.ValidationMessage
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastEl = document.getElementById('myToast');
+            var toast = new bootstrap.Toast(toastEl);
+
+
+            toast.show();
+            setTimeout(function () {
+                toast.hide();
+            }, 5000);
+        });
+    </script>
+}
+
+
+
+
+            
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Manage Profile</h4>
+                </div>
+                <div class="card-body">
+                    <form id="myForm" asp-action="Manage" enctype="multipart/form-data">
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <img src="~/Images/@Model.ImagePath" class="img-fluid" id="pr" alt="Alternate Text" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;" />
+                        </div>
+
+
+
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="City" class="form-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Country" class="form-label"></label>
+                            <input asp-for="Country" class="form-control" />
+                            <span asp-validation-for="Country" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="PhoneNumber" class="form-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ImageFile" class="form-label"></label>
+                            <input id="file" asp-for="ImageFile" class="form-control" type="file" />
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        </div>
+
+                    </form>
+            <div class="mt-4">
+                        <partial name="Delete" model="new Presentation.ViewModels.UserVms.ManageProfileVM{}"></partial>
+                <br />
+                        <partial name="_partialChangePw" model="new Presentation.ViewModels.UserVms.CheckPwVM{}"></partial>
+                    </div><br />
+                        <div class="form-group">
+                        <input type="submit" form="myForm" value="Save Changes" class="btn btn-primary w-100" />
+                        </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        $(document).ready(function () {
+        $('#file').on('change', function () {
+                $('#pr').attr('src', window.URL.createObjectURL(this.files[0]));
+            });
+        });
+    </script>
+}
+
+

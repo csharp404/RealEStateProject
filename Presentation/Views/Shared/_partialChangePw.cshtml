@@ -1,0 +1,35 @@
+﻿@model CheckPwVM
+
+<div class="form-group">
+    <a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#Pw">Change Password</a>
+</div>
+
+<div class="modal" id="Pw">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Making sure you are not drunk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>To change your password</p>
+                <p>Enter Your Current and New Password</p>
+                <form asp-action="ChangePassword" asp-controller="Account">
+                    <input type="password" autocomplete="new-password" class="form-control" required placeholder="Current Password" asp-for="CurrentPassword" />
+                    <hr />
+                    <input type="password" autocomplete="new-password" class="form-control" required placeholder="New Password" asp-for="NewPassword" />
+                    <br />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <input type="submit" value="Change Password" class="btn btn-primary">
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>

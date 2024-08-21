@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Presentation.ViewModels.RealESVM.CardVM>
+
+@{
+    ViewData["Title"] = "Index";
+  }
+
+<div class="row">
+@foreach (var item in Model)
+{
+
+    
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <h3 class="card-header">@item.Title</h3>
+                <div class="card-body">
+                    <h5 class="card-title">@item.Title - $@item.Price</h5>
+                    <h6 class="card-subtitle text-muted">@item.City, @item.Country</h6>
+                </div>
+                <img src="@Url.Content("~/images/" + @item.ImageName)" class="card-img-top" alt="@item.Title" />
+                <div class="card-body">
+                    <p class="card-text">
+                        Located in @item.Hood. This property features @item.N_BedRoom bedrooms and a total of @item.TotalRooms rooms, covering @item.Area_Siza square meters.
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Country: @item.Country</li>
+                    <li class="list-group-item">City: @item.City</li>
+                    <li class="list-group-item">Neighborhood: @item.Hood</li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="card-link">Contact Seller</a>
+                    <a href="#" class="card-link">More Info</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Listed by <img src="@Url.Content("~/images/" + @item.UserPP)" class="rounded-circle" style="width: 30px; height: 30px;" /> @item.UserName
+                </div>
+            </div>
+        </div>
+
+        <!-- Repeat the above block for each card you want to display -->
+    
+
+
+}
+</div>
+
+
+
+

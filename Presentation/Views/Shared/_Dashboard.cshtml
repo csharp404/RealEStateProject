@@ -1,0 +1,376 @@
+﻿<!doctype html>
+<html lang="en">
+<link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+<link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+<head>
+    <meta charset="utf-8">
+    <title>NewVilla - Real Estate HTML Template</title>
+    <meta name="description" content="Morden Bootstrap HTML5 Template">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="~/DbAssets/img/favicon.ico">
+
+    <!-- ======= All CSS Plugins here ======== -->
+    <link rel="stylesheet" href="~/DbAssets/css/plugins/swiper-bundle.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+    <!-- Plugin css -->
+    <link rel="stylesheet" href="~/DbAssets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="~/DbAssets/css/plugins/swiper-bundle.min.css">
+    <link rel="stylesheet" href="~/DbAssets/css/plugins/glightbox.min.css">
+
+    <!-- Custom Style CSS -->
+    <link rel="stylesheet" href="~/DbAssets/css/style.css">
+    <link rel="stylesheet" href="~/DbAssets/css/dashboard.css">
+    <link rel="stylesheet" href="~/DbAssets/css/dark.css">
+
+
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem("theme-color") === "dark" || (!("theme-color" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add("dark");
+        }
+        if (localStorage.getItem("theme-color") === "light") {
+            document.documentElement.classList.remove("dark");
+        }
+    </script>
+
+    <style>
+        .dashboard__chart--box__inner {
+            height: 317px;
+            padding-left: 0px;
+        }
+
+        .sold-out__progress-bar__field {
+            max-width: 200px;
+            width: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Preloader start -->
+    <div id="preloader">
+        <div class="loader--border"></div>
+    </div>
+    <!-- Preloader end -->
+    <div class="dashboard__page--wrapper">
+        <!-- Start Offcanvas header menu -->
+        <div class="offcanvas__header">
+            <div class="offcanvas__inner">
+                <div class="offcanvas__logo">
+                    <a class="offcanvas__logo_link" href="./dashboard.html">
+                        <img class="light__logo" src="~/DbAssets/img/logo/nav-log.png" alt="Logo-img" width="158" height="36">
+                        <img class="dark__logo" src="~/DbAssets/img/logo/nav-log-white.png" alt="Logo-img" width="158" height="36">
+                    </a>
+                    <button class="offcanvas__close--btn" data-offcanvas>close</button>
+                </div>
+
+                <nav class="offcanvas__menu">
+                    <ul class="offcanvas__menu_ul">
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="../index.html">Home</a>
+
+                        </li>
+                        <li class="offcanvas__menu_li">
+                            <a class="offcanvas__menu_item" href="../listing.html">Listing</a>
+
+                        </li>
+
+                        <li class="offcanvas__menu_li"><a class="offcanvas__menu_item" href="./my-properties.html">Properties</a></li>
+
+
+
+                    </ul>
+                </nav>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- End Offcanvas header menu -->
+    <!-- Start serch box area -->
+    <div class="predictive__search--box">
+        <div class="predictive__search--box__inner">
+            <h2 class="predictive__search--title">Search Products</h2>
+            <form class="predictive__search--form" action="#">
+                <label>
+                    <input class="predictive__search--input" placeholder="Search Here" type="text">
+                </label>
+                <button class="predictive__search--button" aria-label="search button"><i class="bi bi-search"></i></button>
+            </form>
+        </div>
+        <button class="predictive__search--close__btn" aria-label="search close" data-offcanvas>
+            <i class="bi bi-x predictive__search--close__icon"></i>
+
+        </button>
+    </div>
+    <!-- End serch box area -->
+    <!-- Dashboard sidebar -->
+    <div class="dashboard__sidebar">
+        <div class="main__logo logo-desktop-none">
+            <h1 class="main__logo--title">
+                <a class="main__logo--link" href="./dashboard.html">
+                    <img class="main__logo--img desktop light__logo" src="~/DbAssets/img/logo/nav-log.png" alt="logo-img">
+                    <img class="main__logo--img desktop dark__logo" src="~/DbAssets/img/logo/nav-log-white.png" alt="logo-img">
+                    <img class="main__logo--img mobile" src="~/DbAssets/img/logo/logo-mobile.png" alt="logo-img">
+                </a>
+            </h1>
+        </div>
+        <div class="dashboard__sidebar--inner">
+            <ul class="sidebar__menu" id="accordionExample">
+                <li class="sidebar__menu--items">
+                    <a class="sidebar__menu--link active" href="./dashboard.html">
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        <span class="sidebar__menu--text"> Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar__menu--items">
+                    <a class="sidebar__menu--link" href="./create-listing.html">
+                        <i class="bi bi-plus-circle"></i>
+                        <span class="sidebar__menu--text"> Create Listing</span>
+                    </a>
+                </li>
+
+                <li class="sidebar__menu--items">
+                    <label class="sidebar__menu--title">Manage Listings</label>
+                </li>
+
+                <li class="sidebar__menu--items">
+                    <a class="sidebar__menu--link" href="./my-favorites.html">
+                        <i class="bi bi-bar-chart-steps"></i>
+                        <span class="sidebar__menu--text">My Properties</span>
+                    </a>
+                </li>
+                <li class="sidebar__menu--items">
+                    <a class="sidebar__menu--link" href="./my-favorites.html">
+                        <i class="bi bi-star-fill"></i>
+                        <span class="sidebar__menu--text">My Favorites</span>
+                    </a>
+                </li>
+
+
+                <li class="sidebar__menu--items">
+                    <a class="sidebar__menu--link" href="./profile.html">
+                        <i class="bi bi-patch-question"></i>
+                        <span class="sidebar__menu--text">Reviews</span>
+                    </a>
+                </li>
+                <li class="sidebar__menu--items">
+                    <label class="sidebar__menu--title">Manage Account</label>
+                </li>
+
+                <li class="sidebar__menu--items">
+                    <a class="sidebar__menu--link" href="./profile.html">
+                        <i class="bi bi-person"></i>
+                        <span class="sidebar__menu--text">My Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar__menu--items">
+                    <a class="sidebar__menu--link" href="./settings.html">
+                        <i class="bi bi-gear"></i>
+                        <span class="sidebar__menu--text"> Settings</span>
+                    </a>
+
+                </li>
+                <li class="sidebar__menu--items">
+                    <a class="sidebar__menu--link logout color-accent-2" href="../sign-up.html">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span class="sidebar__menu--text">  Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Dashboard sidebar .\ -->
+
+    <div class="page__body--wrapper" id="dashbody__page--body__wrapper">
+        <!-- Start header area -->
+        <header class="header__section">
+            <div class="main__header d-flex justify-content-between align-items-center">
+                <div class="header__left d-flex align-items-center">
+                    <a class="collaps__menu" href="javascript:void(0)">
+                        <i class="bi bi-chevron-double-left"></i>
+                    </a>
+                    <div class="offcanvas__header--menu__open ">
+                        <a class="offcanvas__header--menu__open--btn" href="javascript:void(0)" data-offcanvas>
+                            <i class="bi bi-list"></i>
+
+                            <span class="visually-hidden">Offcanvas Menu Open</span>
+                        </a>
+                    </div>
+                    <div class="search__box">
+                        <form class="search__box--form laptop__hidden" action="#">
+                            <input class="search__box--input__field" placeholder="Search for ...." type="text">
+                            <span class="search__box--icon">
+                                <i class="bi bi-search"></i>
+
+                            </span>
+                        </form>
+                        <button class="search__btn--field hidden__btn" type="submit">
+                            <i class="bi bi-search"></i>
+
+                        </button>
+                    </div>
+                    <div class="main__logo logo-desktop-block">
+                        <a class="main__logo--link" href="./dashboard.html">
+                            <img class="main__logo--img desktop light__logo" src="~/DbAssets/img/logo/nav-log.png" alt="logo-img">
+                            <img class="main__logo--img desktop dark__logo" src="~/DbAssets/img/logo/nav-log-white.png" alt="logo-img">
+                            <img class="main__logo--img mobile" src="~/DbAssets/img/logo/logo-mobile.png" alt="logo-img">
+                        </a>
+                    </div>
+                </div>
+                <div class="header__right d-flex align-items-center">
+                    <div class="main__menu d-none d-xl-block">
+                        <nav class="main__menu--navigation">
+                            <ul class="main__menu--wrapper d-flex">
+                                <li class="main__menu--items">
+                                    <a class="main__menu--link" href="../index.html">
+                                        <i class="bi bi-house-door-fill"></i>
+                                        Home
+
+                                    </a>
+
+                                </li>
+
+
+
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="header__nav-bar__wrapper d-flex align-items-center">
+                        <ul class="nav-bar__menu d-flex">
+                            <li class="nav-bar__menu--items laptop_d-block">
+                                <a class="nav-bar__menu--icon search__open--btn" href="javascript:void(0)" data-offcanvas>
+                                    <i class="bi bi-search"></i>
+
+                                    <span class="visually-hidden">Search</span>
+                                </a>
+                            </li>
+                            <li class="nav-bar__menu--items">
+                                <a class="nav-bar__menu--icon" href="#" id="light__to--dark">
+                                    <i class="bi bi-brightness-high light--mode__icon"></i>
+                                    <i class="bi bi-moon dark--mode__icon"></i>
+
+                                    <span class="visually-hidden">Dark Light</span>
+                                </a>
+                            </li>
+
+
+                            <li class="nav-bar__menu--items">
+                                <a class="nav-bar__menu--icon position-relative" href="#">
+                                    <i class="bi bi-bell"></i>
+
+                                    <span class="nav-bar__notification--badge"></span>
+                                    <span class="visually-hidden">Notification</span>
+                                </a>
+                            </li>
+                        </ul>@* user *@
+                        <div class="header__user--profile">
+                            <a class="header__user--profile__link d-flex align-items-center" href="#">
+                                <img class="header__user--profile__thumbnail" src="~/DbAssets/img/dashboard/nav-author-thumb.png" alt="img">
+                                <span class="header__user--profile__name">Rimon Ali</span>
+                                <span class="header__user--profile__arrow">
+                                    <i class="bi bi-chevron-down"></i>
+
+                                </span>
+                            </a>
+                            <div class="dropdown__user--profile">
+                                <ul class="user__profile--menu">
+                                    <li class="user__profile--menu__items">
+                                        <a class="user__profile--menu__link" href="./profile.html">
+                                            <i class="bi bi-person" style="font-size: 20px; margin-right: 8px;"></i> My Profile
+                                        </a>
+                                    </li>
+                                    <li class="user__profile--menu__items">
+                                        <a class="user__profile--menu__link position-relative" href="./chat.html">
+                                            <i class="bi bi-envelope" style="font-size: 18px; margin-right: 8px;"></i> Inbox
+                                            <span class="profile__messages--count">12</span>
+                                        </a>
+                                    </li>
+                                    <li class="user__profile--menu__items">
+                                        <a class="user__profile--menu__link" href="./settings.html">
+                                            <i class="bi bi-gear" style="font-size: 18px; margin-right: 8px;"></i> Account Settings
+                                        </a>
+                                    </li>
+                                    <li class="user__profile--menu__items">
+                                        <a class="user__profile--menu__link position-relative" href="#">
+                                            <i class="bi bi-gem" style="font-size: 18px; margin-right: 8px;"></i> Upgrade
+                                            <span class="profile__upgrade--badge">Pro</span>
+                                        </a>
+                                    </li>
+                                    <li class="user__profile--menu__items">
+                                        <a class="user__profile--menu__link" href="#">
+                                            <i class="bi bi-clipboard" style="font-size: 18px; margin-right: 8px;"></i> Taskboard
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="dropdown__user--profile__footer">
+                                    <a class="user__profile--log-out__btn" href="../sign-up.html">
+                                        <i class="bi bi-box-arrow-right" style="font-size: 20px; margin-right: 8px;"></i> Log Out
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </header>
+        <!-- End header area -->
+        <main class="main__content_wrapper">
+            <!-- dashboard container -->
+
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+
+            <!-- Start footer section -->
+            <!-- End footer section -->
+        </main>
+        <footer class="footer footer__section">
+            <div class="dashboard__footer--inner text-center">
+                <p class="copyright__content mb-0">Copyright © 2024 Powered By <span>NewVilla</span>. Designed with  by <a class="copyright__content--link" target="_blank" href="https://themeforest.net/search/hooktheme">Hooktheme</a>  All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+
+    </div>
+
+    <!-- Scroll top bar -->
+    <button id="scroll__top">
+        <i class="bi bi-arrow-up-circle"></i>
+    </button>
+
+    <!-- All Script JS Plugins here  -->
+    <script src="~/DbAssets/js/vendor/popper.js" defer="defer"></script>
+    <script src="~/DbAssets/js/vendor/bootstrap.min.js" defer="defer"></script>
+    <script src="~/DbAssets/js/plugins/swiper-bundle.min.js"></script>
+    <script src="~/DbAssets/js/plugins/glightbox.min.js"></script>
+
+
+    <!-- Customscript js -->
+    <script src="~/DbAssets/js/script.js"></script>
+
+    <!-- Dark to light js -->
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem("theme-color") === "dark" || (!("theme-color" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.getElementById("light__to--dark")?.classList.add("dark--version");
+        }
+        if (localStorage.getItem("theme-color") === "light") {
+            document.getElementById("light__to--dark")?.classList.remove("dark--version");
+        }
+    </script>
+
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <!-- Customscript js -->
+    <script src="~/DbAssets/js/chart-activation.js"></script>
+
+
+</body>
+</html>
