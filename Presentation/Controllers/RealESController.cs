@@ -21,34 +21,38 @@ namespace Presentation.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var linq = db.RealES.Include(x => x.Room).Include(x => x.Address).ThenInclude(x => x.Country).ThenInclude(x => x.Cities).ThenInclude(x => x.hoods).Include(x => x.Images).Include(x => x.User).ToList();
-            var data = new List<CardVM>();
-            foreach (var item in linq)
+            var data = db.RealES
+                .Include(x => x.Address)
+                .ThenInclude(x => x.Country)
+                .ThenInclude(x => x.Cities)
+                .ThenInclude(x => x.hoods)
+                .Include(x => x.Images)
+                .Include(x => x.Room)
+                .Include(x => x.User)
+                .ToList();
+            List<CardVM> cardVM = new List<CardVM>();
+            foreach (var card in data)
             {
-
-                CardVM card = new CardVM
+                cardVM.Add(new CardVM
                 {
-                    Country = item.Address.Country.Name,
-                    City = item.Address.City.Name,
-                    Hood = item.Address.Hood.Name,
-                    Title = item.Name,
-                    Price = item.Price,
+                    ImageName = card.Images.Select(x => x.ImageName).ToList(),
+                    UserName = card.User.FirstName + " " + card.User.LastName,
+                    Title = card.Name,
+                    Country = card.Address.Country.Name,
+                    City = card.Address.City.Name,
+                    Hood = card.Address.Hood.Name,
+                    Area_Siza = card.Area_Size,
+                    UserPP = card.User.ImageName,
+                    TotalRooms = card.Room.N_Bathroom,
+                    N_BedRoom = card.Room.N_Bedroom,
+                    Price = card.Price,
+                    Date = card.CreatedAt.ToShortDateString(),
+                    UserID = card.UserID,
+                    RealId = card.ID
 
-                    N_BedRoom = item.Room.N_Bedroom,
-                    TotalRooms = linq.Select(x => item.Room).Count().ToString(),
-                    Area_Siza = item.Area_Size,
-                    UserName = item.User.FirstName + " " + item.User.LastName,
-                    UserPP = item.User.ImageName,
-                    ImageName = item.Images.FirstOrDefault().ImageName
-
-
-
-
-                };
-                data.Add(card);
+                });
             }
-
-            return View(data);
+            return View(cardVM);
         }
 
         public async Task<IActionResult> Create()
@@ -65,9 +69,6 @@ namespace Presentation.Controllers
             };
             return View(data);
         }
-
-
-
         [HttpPost]
         public async Task<IActionResult> Create(CreateVM prop)
         {
@@ -102,7 +103,9 @@ namespace Presentation.Controllers
            ();
             foreach (var item in prop.ImageFiles)
             {
-                var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images/RealESImages", Guid.NewGuid().ToString() + item.FileName);
+                var guid = Guid.NewGuid().ToString();
+
+                var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images/RealESImages", guid + item.FileName);
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
@@ -112,7 +115,7 @@ namespace Presentation.Controllers
                    new RealESImages
                    {
                        ID = Guid.NewGuid().ToString(),
-                       ImageName = item.FileName,
+                       ImageName = guid + item.FileName,
                        ImagePath = path,
                        RealESId = RealESid
                    }
@@ -184,10 +187,42 @@ namespace Presentation.Controllers
             var data = db.Hoods.Where(x => x.CityId == id).ToList();
             return Ok(data);
         }
+        
+        public async Task<IActionResult> Details(string id)
+        {
+            var RealId = db.RealES .Include(x=>x.Images).Include(x=>x.RealESFeatures).ThenInclude(x=>x.Feature).FirstOrDefault(x=>x.ID==id);
+            
+            var data = new DetailsVM();
+            if (RealId != null)
+            {
+                var address = db.Addresses.Include(x=>x.Country).Include(x=>x.City).Include(x=>x.Hood).FirstOrDefault(x => x.AddressID == RealId.AddressID);
+                var rooms = db.Rooms.FirstOrDefault(x => x.RoomID == RealId.RoomID);
+                var user = (User)db.Users.FirstOrDefault(x => x.Id == RealId.UserID);
+                data = new DetailsVM
+                {
+                    ImageName =RealId.Images.Select(x=>x.ImageName).ToList() ,
+                    Title = RealId.Name,
+                    Price = RealId.Price,
+                    Country = address.Country.Name,
+                    City = address.City.Name,
+                    Hood = address.Hood.Name,
+                    N_BedRoom = rooms.N_Bedroom,
+                    TotalRooms = rooms.N_Rooms,
+                    N_Bathrooms = rooms.N_Bathroom,
+                    Area_Siza = RealId.Area_Size,
+                    UserName = user.FirstName + " "+ user.LastName,
+                    Date=  RealId.CreatedAt.Year.ToString(),
+                    Description =   RealId.Description,
+                    Email = user.UserName,
+                    Garage= rooms.N_Garage,
+                    UserPP = user.ImageName,
+                    PhoneNumber = user.PhoneNumber,
+                    Features = RealId.RealESFeatures.Select(x=>x.Feature.Name).ToList()
+                };
+            }
+            
+            return View(data);
+        }
 
-    }
-
-
-
-
+    } 
 }

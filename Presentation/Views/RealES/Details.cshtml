@@ -1,0 +1,548 @@
+﻿@model Presentation.ViewModels.RealESVM.DetailsVM
+
+@{
+    ViewData["Title"] = "Details";
+    var date =
+        @DateTime.Now.Year
+        - int.Parse(@Model.Date);
+}
+
+<main class="main__content_wrapper">
+
+    <!-- Hero section -->
+    <section class="listing__hero--section">
+        <div class="listing__hero--section__inner position-relative">
+            <div class="listing__hero--slider">
+                <div class="swiper hero__swiper--column1">
+                    <div class="swiper-wrapper">
+                  @foreach (var item in Model.ImageName)
+                        {
+                             <div class="swiper-slide">
+                            <div class="listing__hero--slider__items position-relative">
+                                <img class="listing__hero--slider__media"
+                                     src="~/Images/RealESImages/@item"
+                                     alt="img" />
+                                <div class="listing__hero--slider__container">
+                                    <div class="container">
+                                        <!-- Hero Content -->
+                                        <div class="listing__hero--slider__content">
+                                            <div class="listing__hero--slider__content--top d-flex align-items-center justify-content-between">
+                                                <h3 class="listing__hero--slider__title">
+                                                    @Model.Title
+                                                </h3>
+                                                <span class="listing__hero--slider__price">$@Model.Price</span>
+                                            </div>
+                                            <p class="listing__hero--slider__text">
+                                                <svg width="11"
+                                                     height="17"
+                                                     viewBox="0 0 11 17"
+                                                     fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M5.48287 0C2.45013 0 0 2.4501 0 5.48288C0 5.85982 0.0343013 6.21958 0.102785 6.57945C0.514031 9.69783 4.42055 11.9767 5.51712 16.4144C6.5966 12.0452 11 8.824 11 5.48288H10.9657C10.9657 2.45013 8.51548 0 5.48282 0H5.48287ZM5.48287 2.17592C7.21338 2.17592 8.61839 3.58097 8.61839 5.31144C8.61839 7.04191 7.21335 8.44696 5.48287 8.44696C3.7524 8.44696 2.34736 7.04191 2.34736 5.31144C2.34736 3.58097 3.75228 2.17592 5.48287 2.17592Z"
+                                                          fill="#FA4B4A" />
+                                                </svg>
+                                                  @Model.Country , @Model.City , @Model.Hood
+                                            </p>
+                                        </div>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                       
+
+                     
+                        
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero swiper -->
+            <div class="listing__small--hero__slider">
+                <div class="swiper hero__swiper--column3">
+                    <div class="swiper-wrapper">
+                        
+                    </div>
+                </div>
+               
+            </div>
+            <!-- Hero swiper .\ -->
+        </div>
+    </section>
+    <!-- Hero section .\ -->
+    <!-- Listing details section -->
+    <section class="listing__details--section section--padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="listing__details--wrapper">
+                        <div class="listing__details--content">
+                            <div class="listing__details--content__top mb-25 d-flex align-items-center justify-content-between">
+                                <div class="listing__details--meta">
+                                    <ul class="listing__details--meta__wrapper d-flex align-items-center">
+                                        
+                                        <li>
+                                            <span class="listing__details--meta__icon">
+                                                <svg width="13" height="15" viewBox="0 0 13 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1 13.0469H3.25V10.7969H1V13.0469ZM3.75 13.0469H6.25V10.7969H3.75V13.0469ZM1 10.2969H3.25V7.79687H1V10.2969ZM3.75 10.2969H6.25V7.79687H3.75V10.2969ZM1 7.29687H3.25V5.04688H1V7.29687ZM6.75 13.0469H9.25V10.7969H6.75V13.0469ZM3.75 7.29687H6.25V5.04688H3.75V7.29687ZM9.75 13.0469H12V10.7969H9.75V13.0469ZM6.75 10.2969H9.25V7.79687H6.75V10.2969ZM4 3.54687V1.29687C4 1.22917 3.97396 1.17187 3.92188 1.125C3.875 1.07292 3.81771 1.04687 3.75 1.04687H3.25C3.18229 1.04687 3.1224 1.07292 3.07031 1.125C3.02344 1.17187 3 1.22917 3 1.29687V3.54687C3 3.61458 3.02344 3.67448 3.07031 3.72656C3.1224 3.77344 3.18229 3.79687 3.25 3.79687H3.75C3.81771 3.79687 3.875 3.77344 3.92188 3.72656C3.97396 3.67448 4 3.61458 4 3.54687ZM9.75 10.2969H12V7.79687H9.75V10.2969ZM6.75 7.29687H9.25V5.04688H6.75V7.29687ZM9.75 7.29687H12V5.04688H9.75V7.29687ZM10 3.54687V1.29687C10 1.22917 9.97396 1.17187 9.92188 1.125C9.875 1.07292 9.81771 1.04687 9.75 1.04687H9.25C9.18229 1.04687 9.1224 1.07292 9.07031 1.125C9.02344 1.17187 9 1.22917 9 1.29687V3.54687C9 3.61458 9.02344 3.67448 9.07031 3.72656C9.1224 3.77344 9.18229 3.79687 9.25 3.79687H9.75C9.81771 3.79687 9.875 3.77344 9.92188 3.72656C9.97396 3.67448 10 3.61458 10 3.54687ZM13 3.04687V13.0469C13 13.3177 12.901 13.5521 12.7031 13.75C12.5052 13.9479 12.2708 14.0469 12 14.0469H1C0.729167 14.0469 0.494792 13.9479 0.296875 13.75C0.0989583 13.5521 0 13.3177 0 13.0469V3.04687C0 2.77604 0.0989583 2.54167 0.296875 2.34375C0.494792 2.14583 0.729167 2.04687 1 2.04687H2V1.29687C2 0.953124 2.1224 0.658853 2.36719 0.414062C2.61198 0.16927 2.90625 0.046874 3.25 0.046874H3.75C4.09375 0.046874 4.38802 0.16927 4.63281 0.414062C4.8776 0.658853 5 0.953124 5 1.29687V2.04687H8V1.29687C8 0.953124 8.1224 0.658853 8.36719 0.414062C8.61198 0.16927 8.90625 0.046874 9.25 0.046874H9.75C10.0938 0.046874 10.388 0.16927 10.6328 0.414062C10.8776 0.658853 11 0.953124 11 1.29687V2.04687H12C12.2708 2.04687 12.5052 2.14583 12.7031 2.34375C12.901 2.54167 13 2.77604 13 3.04687Z" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <span class="listing__details--meta__text"> @date </span>
+                                        </li>
+                                        <li>
+                                            <span class="listing__details--meta__icon">
+                                                <svg width="17" height="14" viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M9.37483 2.17857C8.58316 1.86905 7.73197 1.71428 6.82126 1.71428C5.91054 1.71428 5.05935 1.86905 4.26768 2.17857C3.47602 2.48809 2.84507 2.90774 2.37483 3.4375C1.91054 3.96726 1.6784 4.53571 1.6784 5.14286C1.6784 5.63095 1.83614 6.10119 2.15161 6.55357C2.46709 7.00595 2.91054 7.39881 3.48197 7.73214L4.34804 8.23214L4.03554 8.98214C4.23792 8.8631 4.42245 8.74702 4.58911 8.63393L4.98197 8.35714L5.45518 8.44643C5.91947 8.52976 6.37483 8.57143 6.82126 8.57143C7.73197 8.57143 8.58316 8.41667 9.37483 8.10714C10.1665 7.79762 10.7945 7.37798 11.2588 6.84821C11.729 6.31845 11.9641 5.75 11.9641 5.14286C11.9641 4.53571 11.729 3.96726 11.2588 3.4375C10.7945 2.90774 10.1665 2.48809 9.37483 2.17857ZM3.66054 1.1875C4.63078 0.776785 5.68435 0.571428 6.82126 0.571428C7.95816 0.571428 9.00876 0.776785 9.97304 1.1875C10.9433 1.59226 11.7082 2.14583 12.2677 2.84821C12.8272 3.55059 13.107 4.31548 13.107 5.14286C13.107 5.97024 12.8272 6.73512 12.2677 7.4375C11.7082 8.13988 10.9433 8.69643 9.97304 9.10714C9.00876 9.5119 7.95816 9.71429 6.82126 9.71429C6.30935 9.71429 5.78554 9.66667 5.24983 9.57143C4.51173 10.0952 3.68435 10.4762 2.76768 10.7143C2.5534 10.7679 2.29745 10.8155 1.99983 10.8571H1.97304C1.90757 10.8571 1.84507 10.8333 1.78554 10.7857C1.73197 10.7381 1.69923 10.6756 1.68733 10.5982C1.68137 10.5804 1.6784 10.5625 1.6784 10.5446C1.6784 10.5208 1.6784 10.5 1.6784 10.4821C1.68435 10.4643 1.6903 10.4464 1.69626 10.4286C1.70816 10.4107 1.71709 10.3958 1.72304 10.3839C1.72899 10.372 1.73792 10.3571 1.74983 10.3393C1.76768 10.3155 1.77959 10.3006 1.78554 10.2946C1.79745 10.2827 1.81233 10.2679 1.83018 10.25C1.84804 10.2262 1.85995 10.2113 1.8659 10.2054C1.89566 10.1696 1.96411 10.0952 2.07126 9.98214C2.1784 9.86905 2.25578 9.78274 2.3034 9.72321C2.35102 9.65774 2.41649 9.57143 2.49983 9.46429C2.58911 9.35119 2.66352 9.23512 2.72304 9.11607C2.78852 8.99702 2.85102 8.86607 2.91054 8.72321C2.17245 8.29464 1.59209 7.76786 1.16947 7.14286C0.746851 6.51786 0.535542 5.85119 0.535542 5.14286C0.535542 4.31548 0.815303 3.55059 1.37483 2.84821C1.93435 2.14583 2.69626 1.59226 3.66054 1.1875ZM14.1605 11.0089C14.2201 11.1518 14.2796 11.2827 14.3391 11.4018C14.4046 11.5208 14.479 11.6369 14.5623 11.75C14.6516 11.8571 14.7201 11.9405 14.7677 12C14.8153 12.0655 14.8927 12.1548 14.9998 12.2679C15.107 12.381 15.1754 12.4554 15.2052 12.4911C15.2111 12.497 15.223 12.5089 15.2409 12.5268C15.2588 12.5506 15.2707 12.5655 15.2766 12.5714C15.2885 12.5833 15.3004 12.5982 15.3123 12.6161C15.3302 12.6399 15.3421 12.6577 15.348 12.6696C15.354 12.6815 15.3599 12.6964 15.3659 12.7143C15.3778 12.7321 15.3838 12.75 15.3838 12.7679C15.3897 12.7857 15.3927 12.8036 15.3927 12.8214C15.3927 12.8452 15.3897 12.8661 15.3838 12.8839C15.3659 12.9673 15.3272 13.0327 15.2677 13.0804C15.2082 13.128 15.1427 13.1488 15.0713 13.1429C14.7736 13.1012 14.5177 13.0536 14.3034 13C13.3867 12.7619 12.5594 12.381 11.8213 11.8571C11.2855 11.9524 10.7617 12 10.2498 12C8.63673 12 7.23197 11.6071 6.03554 10.8214C6.38078 10.8452 6.64268 10.8571 6.82126 10.8571C7.77959 10.8571 8.69923 10.7232 9.58018 10.4554C10.4611 10.1875 11.2469 9.80357 11.9373 9.30357C12.6814 8.75595 13.2528 8.125 13.6516 7.41071C14.0504 6.69643 14.2498 5.94048 14.2498 5.14286C14.2498 4.68452 14.1814 4.23214 14.0445 3.78571C14.8123 4.20833 15.4195 4.73809 15.8659 5.375C16.3123 6.0119 16.5355 6.69643 16.5355 7.42857C16.5355 8.14286 16.3242 8.8125 15.9016 9.4375C15.479 10.0565 14.8986 10.5804 14.1605 11.0089Z" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <span class="listing__details--meta__text">7214 views</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <ul class="listing__details--action d-flex">
+                                    <li class="listing__details--action__list">
+                                        <a class="listing__details--wishlist__btn" href="listing.html">
+                                            <svg width="18" height="16" viewBox="0 0 18 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M16.5266 1.49287C15.2525 0.378116 13.9217 -0.114882 12.5718 0.0224527C10.7916 0.206002 9.49922 1.43636 9.00034 1.99052C8.50153 1.43636 7.20917 0.206005 5.42893 0.0224527C4.07666 -0.11477 2.74825 0.378116 1.47408 1.49287C0.17279 2.63133 -0.27894 4.29861 0.166748 6.31453C1.03241 10.2279 5.1234 14.6311 8.92141 15.7371C8.97276 15.7521 9.02724 15.7521 9.07859 15.7371C12.8769 14.6311 16.9677 10.2279 17.8332 6.31453C18.2789 4.29848 17.8272 2.63127 16.5259 1.49287H16.5266ZM4.98732 1.68709C4.20931 1.68709 3.40127 2.04905 2.58536 2.76314C1.76505 3.48077 1.50577 4.55296 1.81499 5.95029C1.84851 6.10195 1.75272 6.25198 1.60106 6.28551C1.5811 6.28991 1.56063 6.29217 1.54017 6.29217C1.40834 6.29204 1.29422 6.20039 1.26572 6.07158C0.908678 4.45866 1.22806 3.20307 2.21511 2.33946C3.13625 1.53345 4.06921 1.12453 4.98733 1.12453C5.14263 1.12453 5.26856 1.25046 5.26856 1.40576C5.26856 1.56106 5.14263 1.68698 4.98733 1.68698L4.98732 1.68709Z" fill="currentColor" />
+                                            </svg>
+                                            <span class="visually-hidden">fav</span>
+                                        </a>
+                                    </li>
+                                   
+                                   
+                                </ul>
+                            </div>
+                            <div class="listing__details--content__step">
+                                <h2 class="listing__details--title mb-25">@Model.Title</h2>
+                                <div class="listing__details--price__id d-flex align-items-center">
+                                    <div class="listing__details--price d-flex">
+                                        <span class="listing__details--price__new">@Model.Price</span>
+                                       
+                                    </div>
+                                   
+                                </div>
+                                <p class="listing__details--location__text">
+                                    <svg width="11" height="17" viewBox="0 0 11 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M5.48287 0C2.45013 0 0 2.4501 0 5.48288C0 5.85982 0.0343013 6.21958 0.102785 6.57945C0.514031 9.69783 4.42055 11.9767 5.51712 16.4144C6.5966 12.0452 11 8.824 11 5.48288H10.9657C10.9657 2.45013 8.51548 0 5.48282 0H5.48287ZM5.48287 2.17592C7.21338 2.17592 8.61839 3.58097 8.61839 5.31144C8.61839 7.04191 7.21335 8.44696 5.48287 8.44696C3.7524 8.44696 2.34736 7.04191 2.34736 5.31144C2.34736 3.58097 3.75228 2.17592 5.48287 2.17592Z" fill="#FA4B4A" />
+                                    </svg>
+                                    @Model.Country , @Model.City , @Model.Hood
+                                </p>
+                            </div>
+                        </div>
+                        <div class="listing__details--main__content">
+                            <div class="listing__details--content__step mb-80">
+                                <h3 class="listing__details--content__title">Description:</h3>
+                                <p class="listing__details--content__desc">
+                                   @Model.Description
+                                </p>
+                               
+                            </div>
+                            <div class="listing__details--content__step properties__info mb-80">
+                                <h3 class="listing__details--content__title mb-40">Properties Details:</h3>
+                                <ul class="properties__details--info__wrapper d-flex">
+                                    <li class="properties__details--info__list d-flex justify-content-between">
+                                        <span class="properties__details--info__title">Price:</span>
+                                        <span class="properties__details--info__subtitle">$@Model.Price</span>
+                                    </li>
+                                   
+                                    <li class="properties__details--info__list d-flex justify-content-between">
+                                        <span class="properties__details--info__title">Area Size:</span>
+                                        <span class="properties__details--info__subtitle">@Model.Area_Siza</span>
+                                    </li>
+                                
+                                    <li class="properties__details--info__list d-flex justify-content-between">
+                                        <span class="properties__details--info__title">Rooms:</span>
+                                        <span class="properties__details--info__subtitle">@Model.TotalRooms</span>
+                                    </li>
+                               
+                                    <li class="properties__details--info__list d-flex justify-content-between">
+                                        <span class="properties__details--info__title">Garage:</span>
+                                        <span class="properties__details--info__subtitle">@Model.Garage</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="listing__details--content__step properties__amenities mb-80">
+                                <h3 class="listing__details--content__title mb-40">Properties Amenities</h3>
+                                <div class="properties__amenities--wrapper d-flex">
+
+                                    @for (int i = 0; i < Model.Features.Count;)
+                                    {
+                                        <ul class="properties__amenities--step">
+                                            @for (int j = 0; j < 4; j++)
+                                            {
+
+                                                <li class="properties__amenities--list d-flex align-items-center">
+                                                    <span class="properties__amenities--mark__icon">
+                                                        <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M15.794 2.174C14.426 3.422 13.094 4.874 11.798 6.53C10.67 7.958 9.656 9.422 8.756 10.922C7.94 12.266 7.346 13.418 6.974 14.378C6.962 14.414 6.938 14.444 6.902 14.468C6.866 14.504 6.824 14.522 6.776 14.522C6.764 14.534 6.752 14.54 6.74 14.54C6.656 14.54 6.596 14.516 6.56 14.468L0.134 7.934C0.122 7.922 0.278 7.766 0.602 7.466C0.926 7.154 1.244 6.872 1.556 6.62C1.904 6.332 2.09 6.2 2.114 6.224L5.642 8.996C6.674 7.784 7.832 6.584 9.116 5.396C11.048 3.62 13.04 2.108 15.092 0.86C15.128 0.86 15.266 1.028 15.506 1.364L15.866 1.886C15.878 1.934 15.878 1.988 15.866 2.048C15.854 2.096 15.83 2.138 15.794 2.174Z" fill="currentColor" />
+                                                        </svg>
+                                                    </span>
+                                                    <span class="properties__amenities--text">@Model.Features[i]</span>
+                                                </li>
+                                                i++;
+                                                if (i == Model.Features.Count)
+                                                {
+                                                    break;
+                                                }
+                                            }
+                                        </ul>
+                                    }
+                                   
+                                </div>
+                            </div>
+                           
+                           
+                           @*
+                               As Partial View
+                               Recent Comments
+                           *@
+                       
+                            <div class="listing__details--content__step">
+                                <div class="properties__reviews--comment mb-80">
+                                    <h3 class="listing__details--content__title mb-30">Recent Comment</h3>
+                                    <div class="properties__reviews--comment__display mb-50 d-flex align-items-center justify-content-between">
+                                        <div class="reviews__comment--display__left d-flex align-items-center">
+                                            <span class="reviews__comment--display__text">6 Reviews</span>
+                                            <ul class="reviews__comment--display__rating d-flex">
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#D8D4CB"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                            <span class="reviews__comment--display__text">(5 out of 5)</span>
+                                        </div>
+
+                                        <a class="reviews__comment--write" href="#">Write a Review</a>
+                                    </div>
+                                    <div class="properties__reviews--comment__inner">
+                                        <div class="reviews__comment--step d-flex">
+                                            <div class="reviews__comment--thumb">
+                                                <img src="./assets/img/other/comment-author1.jpg" alt="img">
+                                            </div>
+                                            <div class="reviews__comment--content">
+                                                <div class="reviews__comment--top d-flex ">
+                                                    <div class="reviews__comment--author__title">
+                                                        <h3 class="reviews__comment--author__name">Rohan De Spond</h3>
+                                                        <span class="reviews__comment--author__date">25 january 2021</span>
+                                                    </div>
+                                                    <ul class="reviews__comment--rating d-flex">
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#D8D4CB"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <p class="reviews__comment--desc">
+                                                    I live in a villa in the Caribbean and I love it. The villa is located on a beautiful stretch
+                                                    I am a huge fan of the outdoors and I want to make my villa as nature-friendly as
+                                                    I wanted to make a list of the things I've done to make my villa sustainable and so
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="reviews__comment--step d-flex">
+                                            <div class="reviews__comment--thumb">
+                                                <img src="./assets/img/other/comment-author2.png" alt="img">
+                                            </div>
+                                            <div class="reviews__comment--content">
+                                                <div class="reviews__comment--top d-flex ">
+                                                    <div class="reviews__comment--author__title">
+                                                        <h3 class="reviews__comment--author__name">
+                                                            Laura Johnson
+                                                        </h3>
+                                                        <span class="reviews__comment--author__date">25 january 2021</span>
+                                                    </div>
+                                                    <ul class="reviews__comment--rating d-flex">
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#D8D4CB"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <p class="reviews__comment--desc">
+                                                    I live in a villa in the Caribbean and I love it. The villa is located on a beautiful stretch
+                                                    I am a huge fan of the outdoors and I want to make my villa as nature-friendly as
+                                                    I wanted to make a list of the things I've done to make my villa sustainable and so
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="reviews__comment--step d-flex">
+                                            <div class="reviews__comment--thumb">
+                                                <img src="./assets/img/other/comment-author3.png" alt="img">
+                                            </div>
+                                            <div class="reviews__comment--content last__content">
+                                                <div class="reviews__comment--top d-flex ">
+                                                    <div class="reviews__comment--author__title">
+                                                        <h3 class="reviews__comment--author__name">
+                                                            Richard Smith
+                                                        </h3>
+                                                        <span class="reviews__comment--author__date">25 january 2021</span>
+                                                    </div>
+                                                    <ul class="reviews__comment--rating d-flex">
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li>
+                                                            <span>
+                                                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                    <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#D8D4CB"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <p class="reviews__comment--desc">
+                                                    I live in a villa in the Caribbean and I love it. The villa is located on a beautiful stretch
+                                                    I am a huge fan of the outdoors and I want to make my villa as nature-friendly as
+                                                    I wanted to make a list of the things I've done to make my villa sustainable and so
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="properties__reviews--comment">
+                                    <h3 class="listing__details--content__title mb-30">Leave A Comment</h3>
+                                    <div class="properties__reviews--comment__display mb-30">
+                                        <div class="reviews__comment--display__left d-flex align-items-center">
+                                            <span class="reviews__comment--display__text">6 Reviews</span>
+                                            <ul class="reviews__comment--display__rating d-flex">
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#FFB820"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                                <li>
+                                                    <span>
+                                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.71289 1.40234L5.80859 5.29883L1.50195 5.91406C0.740234 6.03125 0.447266 6.96875 1.00391 7.52539L4.08008 10.543L3.34766 14.791C3.23047 15.5527 4.05078 16.1387 4.72461 15.7871L8.5625 13.7656L12.3711 15.7871C13.0449 16.1387 13.8652 15.5527 13.748 14.791L13.0156 10.543L16.0918 7.52539C16.6484 6.96875 16.3555 6.03125 15.5938 5.91406L11.3164 5.29883L9.38281 1.40234C9.06055 0.728516 8.06445 0.699219 7.71289 1.40234Z" fill="#D8D4CB"></path>
+                                                        </svg>
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                            <span class="reviews__comment--display__text">(5 out of 5)</span>
+                                        </div>
+                                    </div>
+                                    <div class="reviews__comment--form">
+                                        <form action="#">
+                                            <div class="row mb--n30">
+                                                <div class="col-lg-6 mb-30">
+                                                    <div class="reviews__comment--input">
+                                                        <input class="reviews__comment--input__field" placeholder="Enter your name*" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-30">
+                                                    <div class="reviews__comment--input">
+                                                        <input class="reviews__comment--input__field" placeholder="Enter your mail*" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-30">
+                                                    <div class="reviews__comment--input">
+                                                        <input class="reviews__comment--input__field" placeholder="Enter your  number*" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 mb-30">
+                                                    <div class="reviews__comment--input">
+                                                        <input class="reviews__comment--input__field" placeholder="Website*" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 mb-30">
+                                                    <div class="reviews__comment--textarea">
+                                                        <textarea class="reviews__comment--textarea__field" placeholder="Write Your Review*"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="reviews__comment--btn solid__btn">
+                                                Post Review <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M8 15.9992C12.4111 15.9992 16 12.4105 16 7.99962C16 3.58875 12.411 0 8 0C3.58901 0 0 3.58875 0 7.99962C0 12.4105 3.58901 15.9992 8 15.9992ZM4.19508 7.57155H7.57197V4.19439C7.57197 3.95805 7.76381 3.76636 8 3.76636C8.23634 3.76636 8.42804 3.95821 8.42804 4.19439V7.57155H11.8049C12.0413 7.57155 12.233 7.7634 12.233 7.99958C12.233 8.23592 12.0411 8.42762 11.8049 8.42762H8.42804V11.8046C8.42804 12.041 8.23619 12.2327 8 12.2327C7.76366 12.2327 7.57197 12.0408 7.57197 11.8046V8.42762H4.19508C3.95874 8.42762 3.76704 8.23577 3.76704 7.99958C3.76704 7.76324 3.9586 7.57155 4.19508 7.57155Z" fill="white" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="listing__widget">
+                        <div class="widget__admin--profile text-center mb-30">
+                            <div class="admin__profile--thumbnail">
+                                <img src="~/Images/@Model.UserPP" alt="img" width="20%">
+                            </div>
+                            <div class="admin__profile--content">
+                                <h3 class="admin__profile--name">@Model.UserName</h3>
+                                <h5 class="admin__profile--subtitle">Real estate broker</h5>
+
+                                <hr />
+                                <a class="admin__profile--email d-block mb-0 " href="mailto:@Model.Email">@Model.Email</a>
+                               
+                                <a class="admin__profile--desc" href="https://wa.me/@Model.PhoneNumber" target="_blank"><i class="bi bi-whatsapp mt-0"></i> WhatsApp </a>
+                                
+
+                               
+                            </div>
+                        </div>
+
+                 
+
+                     
+                     
+
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Listing page section . -->
+    <!-- Social share section -->
+   
+    <!-- Social share section .\ -->
+    <!-- Start footer section -->
+ 
+    <!-- End footer section -->
+
+</main>
