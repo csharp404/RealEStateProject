@@ -120,7 +120,8 @@ namespace Presentation.Controllers
                 Country = resp.Country,
                 City = resp.City,
                 PhoneNumber = resp.PhoneNumber,
-                ImagePath = resp.ImageName,
+                Bio = resp.Bio
+              
                
                 
                 
@@ -144,23 +145,24 @@ namespace Presentation.Controllers
 
             var getUser = (User?)await _userManager.FindByIdAsync(_userManager.GetUserId(User));
 
-            if (data.ImageFile != null)
-            {
-                var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", data.ImageFile.FileName);
+            //if (data.ImageFile != null)
+            //{
+            //    var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", data.ImageFile.FileName);
 
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    data.ImageFile.CopyTo(stream);
-                }
-            getUser.ImagePath = path;
-            getUser.ImageName = data.ImageFile.FileName;
-            }
+            //    using (var stream = new FileStream(path, FileMode.Create))
+            //    {
+            //        data.ImageFile.CopyTo(stream);
+            //    }
+            //getUser.ImagePath = path;
+            //getUser.ImageName = data.ImageFile.FileName;
+            //}
             getUser.FirstName = data.FirstName;
             getUser.LastName = data.LastName;
             getUser.UserName = data.Email;
             getUser.Country = data.Country;
             getUser.City = data.City;
             getUser.PhoneNumber = data.PhoneNumber;
+            getUser.Bio = data.Bio;
 
 
 
@@ -238,6 +240,72 @@ namespace Presentation.Controllers
             }
                 return RedirectToAction("Manage");
 
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> MyProfile()
+        {
+            var user = (User) await _userManager.GetUserAsync(User);
+            var data = new MyProfileVM();
+
+            if (user != null)
+            {
+                data = new MyProfileVM
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.UserName,
+                    Username = user.FirstName + " " + user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    BDay = user.BDay,
+                    City = "Ka3ba",
+                    Country = "KSA",
+                    Bio= user.Bio,
+                    ImageName = user.ImageName, 
+                    CoverName = user.CoverName, 
+                };
+            }
+
+            return View(data);
+        }
+        public  async Task<IActionResult> UploadProfile(Image file)
+        {
+            if(file != null)
+            {
+                var guid = Guid.NewGuid().ToString();
+                var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", guid + file.formFile.FileName);
+                using (var stream = new FileStream(path,FileMode.Create))
+                {
+                    file.formFile.CopyTo(stream);
+                }
+                var currUser = (User) await _userManager.GetUserAsync(User);
+                if (currUser != null) {
+                    currUser.ImageName = guid + file.formFile.FileName;
+                    currUser.ImagePath = path;  
+                }
+                await _userManager.UpdateAsync(currUser);
+            }
+            return RedirectToAction("MyProfile");
+        }
+        public  async Task<IActionResult> UploadCover(Image file)
+        {
+            if(file != null)
+            {
+                var guid = Guid.NewGuid().ToString();
+                var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", guid + file.formFile.FileName);
+                using (var stream = new FileStream(path,FileMode.Create))
+                {
+                    file.formFile.CopyTo(stream);
+                }
+                var currUser = (User) await _userManager.GetUserAsync(User);
+                if (currUser != null) {
+                    currUser.CoverName = guid + file.formFile.FileName;
+                    currUser.CoverPath = path;  
+                await _userManager.UpdateAsync(currUser);
+                }
+            }
+            return RedirectToAction("MyProfile");
         }
     }
 }

@@ -20,7 +20,10 @@
         public string Garage { get; set; }
         public string PhoneNumber { get; set; }
         public List<String> Features { get; set; }
-
+        public string userID {  get; set; }  
+        public string RealID {  get; set; }  
+       public  ICollection<Comments> Commentslist { get; set; }
+        public string Comment { get; set; } 
 
     }
 }

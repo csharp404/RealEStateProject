@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="~/DbAssets/css/style.css">
     <link rel="stylesheet" href="~/DbAssets/css/dashboard.css">
     <link rel="stylesheet" href="~/DbAssets/css/dark.css">
+    <link rel="stylesheet" href="~/DbAssets/css/creat-listing.css">
 
 
     <script>
@@ -50,10 +51,10 @@
 </head>
 
 <body>
-    <!-- Preloader start -->
+   @*  <!-- Preloader start -->
     <div id="preloader">
         <div class="loader--border"></div>
-    </div>
+    </div> *@
     <!-- Preloader end -->
     <div class="dashboard__page--wrapper">
         <!-- Start Offcanvas header menu -->
@@ -127,7 +128,7 @@
                     </a>
                 </li>
                 <li class="sidebar__menu--items">
-                    <a class="sidebar__menu--link" href="./create-listing.html">
+                    <a class="sidebar__menu--link" asp-action="Create" asp-controller="RealES">
                         <i class="bi bi-plus-circle"></i>
                         <span class="sidebar__menu--text"> Create Listing</span>
                     </a>
@@ -162,20 +163,20 @@
                 </li>
 
                 <li class="sidebar__menu--items">
-                    <a class="sidebar__menu--link" href="./profile.html">
+                    <a class="sidebar__menu--link" asp-action="MyProfile" asp-controller="Account">
                         <i class="bi bi-person"></i>
                         <span class="sidebar__menu--text">My Profile</span>
                     </a>
                 </li>
                 <li class="sidebar__menu--items">
-                    <a class="sidebar__menu--link" href="./settings.html">
+                    <a class="sidebar__menu--link" asp-action="Manage" asp-controller="Account">
                         <i class="bi bi-gear"></i>
                         <span class="sidebar__menu--text"> Settings</span>
                     </a>
 
                 </li>
                 <li class="sidebar__menu--items">
-                    <a class="sidebar__menu--link logout color-accent-2" href="../sign-up.html">
+                    <a class="sidebar__menu--link logout color-accent-2" asp-action="Logout" asp-controller="Account">
                         <i class="bi bi-box-arrow-left"></i>
                         <span class="sidebar__menu--text">  Logout</span>
                     </a>
@@ -323,6 +324,7 @@
 
             <main role="main" class="pb-3">
                 @RenderBody()
+                @RenderSection("Scripts", required: false)
             </main>
 
             <!-- Start footer section -->
@@ -342,34 +344,37 @@
     <button id="scroll__top">
         <i class="bi bi-arrow-up-circle"></i>
     </button>
-
-    <!-- All Script JS Plugins here  -->
-    <script src="~/DbAssets/js/vendor/popper.js" defer="defer"></script>
-    <script src="~/DbAssets/js/vendor/bootstrap.min.js" defer="defer"></script>
-    <script src="~/DbAssets/js/plugins/swiper-bundle.min.js"></script>
-    <script src="~/DbAssets/js/plugins/glightbox.min.js"></script>
-
-
-    <!-- Customscript js -->
-    <script src="~/DbAssets/js/script.js"></script>
-
-    <!-- Dark to light js -->
-    <script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.getItem("theme-color") === "dark" || (!("theme-color" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-            document.getElementById("light__to--dark")?.classList.add("dark--version");
-        }
-        if (localStorage.getItem("theme-color") === "light") {
-            document.getElementById("light__to--dark")?.classList.remove("dark--version");
-        }
-    </script>
-
-    <!-- Chart JS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @section Scripts {
+        <!-- All Script JS Plugins here  -->
+        <script src="~/DbAssets/js/vendor/popper.js" defer="defer"></script>
+        <script src="~/DbAssets/js/vendor/bootstrap.min.js" defer="defer"></script>
+        <script src="~/DbAssets/js/plugins/swiper-bundle.min.js"></script>
+        <script src="~/DbAssets/js/plugins/glightbox.min.js"></script>
 
 
-    <!-- Customscript js -->
-    <script src="~/DbAssets/js/chart-activation.js"></script>
+        <!-- Customscript js -->
+        <script src="~/DbAssets/js/script.js"></script>
+
+        <!-- Dark to light js -->
+        <script>
+            // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+            if (localStorage.getItem("theme-color") === "dark" || (!("theme-color" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                document.getElementById("light__to--dark")?.classList.add("dark--version");
+            }
+            if (localStorage.getItem("theme-color") === "light") {
+                document.getElementById("light__to--dark")?.classList.remove("dark--version");
+            }
+        </script>
+
+        <!-- Chart JS -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+        <!-- Customscript js -->
+        <script src="~/DbAssets/js/chart-activation.js"></script>
+
+
+    }
 
 
 </body>

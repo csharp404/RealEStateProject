@@ -1,0 +1,56 @@
+﻿@model Presentation.ViewModels.UserVms.Image;
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQnMftG4GylkOxB6GYsAXAHGtvA1i0imfxAuRUbvkeLRn5FFBbq5x4nZd" crossorigin="anonymous">
+
+<!-- Custom CSS -->
+<style>
+    .modal-content {
+        color: black;
+    }
+
+</style>
+
+<a class="profile__edit--btn"  data-bs-toggle="modal" data-bs-target="#imgc">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_222_1260)">
+            <path d="M6.47428 2.24498L5.97601 1.68443V1.68443L6.47428 2.24498ZM11.5257 2.24498L12.024 1.68443V1.68443L11.5257 2.24498ZM11.3639 2.10115L10.8656 2.6617L11.3639 2.10115ZM6.6361 2.10115L7.13437 2.6617V2.6617L6.6361 2.10115ZM3.04581 15.7837L3.48664 15.177L3.04581 15.7837ZM2.21619 14.9541L2.82295 14.5133L2.21619 14.9541ZM15.7838 14.9541L15.1771 14.5133L15.7838 14.9541ZM14.9542 15.7837L14.5134 15.177L14.9542 15.7837ZM15.75 5.9886V9.7499H17.25V5.9886H15.75ZM9.75 15.7499H8.25V17.2499H9.75V15.7499ZM2.25 9.7499V5.9886H0.75V9.7499H2.25ZM10.8656 2.6617L11.0274 2.80554L12.024 1.68443L11.8622 1.54059L10.8656 2.6617ZM6.97255 2.80554L7.13437 2.6617L6.13783 1.54059L5.97601 1.68443L6.97255 2.80554ZM4.4887 3.7499C5.40436 3.7499 6.28818 3.41387 6.97256 2.80554L5.97601 1.68443C5.56621 2.04869 5.03699 2.2499 4.4887 2.2499V3.7499ZM11.0274 2.80554C11.7118 3.41387 12.5956 3.7499 13.5113 3.7499V2.2499C12.963 2.2499 12.4338 2.04869 12.024 1.68443L11.0274 2.80554ZM11.8622 1.54059C10.2299 0.0896604 7.77012 0.0896602 6.13783 1.54059L7.13437 2.6617C8.19834 1.71596 9.80166 1.71596 10.8656 2.6617L11.8622 1.54059ZM8.25 15.7499C6.82714 15.7499 5.82025 15.7489 5.04373 15.6647C4.28125 15.5821 3.83036 15.4267 3.48664 15.177L2.60497 16.3905C3.247 16.8569 3.99205 17.0596 4.88216 17.156C5.75823 17.2509 6.86056 17.2499 8.25 17.2499V15.7499ZM0.75 9.7499C0.75 11.1393 0.748971 12.2417 0.843887 13.1177C0.940324 14.0078 1.14296 14.7529 1.60942 15.3949L2.82295 14.5133C2.57323 14.1695 2.41777 13.7187 2.33516 12.9562C2.25103 12.1797 2.25 11.1728 2.25 9.7499H0.75ZM3.48664 15.177C3.23196 14.9919 3.00799 14.7679 2.82295 14.5133L1.60942 15.3949C1.88698 15.777 2.22294 16.1129 2.60497 16.3905L3.48664 15.177ZM15.75 9.7499C15.75 11.1728 15.749 12.1797 15.6648 12.9562C15.5822 13.7187 15.4268 14.1695 15.1771 14.5133L16.3906 15.3949C16.857 14.7529 17.0597 14.0078 17.1561 13.1177C17.251 12.2417 17.25 11.1393 17.25 9.7499H15.75ZM9.75 17.2499C11.1394 17.2499 12.2418 17.2509 13.1178 17.156C14.0079 17.0596 14.753 16.8569 15.395 16.3905L14.5134 15.177C14.1696 15.4267 13.7188 15.5821 12.9563 15.6647C12.1798 15.7489 11.1729 15.7499 9.75 15.7499V17.2499ZM15.1771 14.5133C14.992 14.7679 14.768 14.9919 14.5134 15.177L15.395 16.3905C15.7771 16.1129 16.113 15.777 16.3906 15.3949L15.1771 14.5133ZM17.25 5.9886C17.25 3.92377 15.5761 2.2499 13.5113 2.2499V3.7499C14.7477 3.7499 15.75 4.7522 15.75 5.9886H17.25ZM2.25 5.9886C2.25 4.7522 3.2523 3.7499 4.4887 3.7499V2.2499C2.42387 2.2499 0.75 3.92377 0.75 5.9886H2.25ZM5.25 9.7499C5.25 11.821 6.92893 13.4999 9 13.4999V11.9999C7.75736 11.9999 6.75 10.9925 6.75 9.7499H5.25ZM9 13.4999C11.0711 13.4999 12.75 11.821 12.75 9.7499H11.25C11.25 10.9925 10.2426 11.9999 9 11.9999V13.4999ZM12.75 9.7499C12.75 7.67883 11.0711 5.9999 9 5.9999V7.4999C10.2426 7.4999 11.25 8.50726 11.25 9.7499H12.75ZM9 5.9999C6.92893 5.9999 5.25 7.67883 5.25 9.7499H6.75C6.75 8.50726 7.75736 7.4999 9 7.4999V5.9999Z" fill="currentColor" />
+            <path d="M12.75 6C12.75 6.41421 13.0858 6.75 13.5 6.75C13.9142 6.75 14.25 6.41421 14.25 6C14.25 5.58579 13.9142 5.25 13.5 5.25C13.0858 5.25 12.75 5.58579 12.75 6Z" fill="currentColor" />
+        </g>
+        <defs>
+            <clipPath id="clip0_222_1260">
+                <rect width="18" height="18" fill="currentColor" />
+            </clipPath>
+        </defs>
+    </svg>
+    Edit
+</a>
+
+<div class="modal fade" id="imgc" tabindex="-1" aria-labelledby="MLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="MLabel">Upload profile cover picture </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Upload your profile cover picture please ?</p>
+                
+                <form asp-action="UploadCover" asp-controller="Account" enctype="multipart/form-data">
+                   
+                    <div class="mb-3">
+                        <label>Choose file please :</label>
+                        <input type="file" id="formFile" asp-for="formFile" class="form-control" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Uploade</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

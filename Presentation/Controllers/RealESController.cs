@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Presentation.Data;
 using Presentation.Models;
 using Presentation.ViewModels.RealESVM;
@@ -187,20 +188,21 @@ namespace Presentation.Controllers
             var data = db.Hoods.Where(x => x.CityId == id).ToList();
             return Ok(data);
         }
-        
+
         public async Task<IActionResult> Details(string id)
         {
-            var RealId = db.RealES .Include(x=>x.Images).Include(x=>x.RealESFeatures).ThenInclude(x=>x.Feature).FirstOrDefault(x=>x.ID==id);
-            
+            var RealId = db.RealES.Include(x=>x.Comments).ThenInclude(x=>x.User).Include(x => x.Images).Include(x => x.RealESFeatures).ThenInclude(x => x.Feature).FirstOrDefault(x => x.ID == id);
+
             var data = new DetailsVM();
             if (RealId != null)
             {
-                var address = db.Addresses.Include(x=>x.Country).Include(x=>x.City).Include(x=>x.Hood).FirstOrDefault(x => x.AddressID == RealId.AddressID);
+                var address = db.Addresses.Include(x => x.Country).Include(x => x.City).Include(x => x.Hood).FirstOrDefault(x => x.AddressID == RealId.AddressID);
                 var rooms = db.Rooms.FirstOrDefault(x => x.RoomID == RealId.RoomID);
                 var user = (User)db.Users.FirstOrDefault(x => x.Id == RealId.UserID);
+               
                 data = new DetailsVM
                 {
-                    ImageName =RealId.Images.Select(x=>x.ImageName).ToList() ,
+                    ImageName = RealId.Images.Select(x => x.ImageName).ToList(),
                     Title = RealId.Name,
                     Price = RealId.Price,
                     Country = address.Country.Name,
@@ -210,19 +212,36 @@ namespace Presentation.Controllers
                     TotalRooms = rooms.N_Rooms,
                     N_Bathrooms = rooms.N_Bathroom,
                     Area_Siza = RealId.Area_Size,
-                    UserName = user.FirstName + " "+ user.LastName,
-                    Date=  RealId.CreatedAt.Year.ToString(),
-                    Description =   RealId.Description,
+                    UserName = user.FirstName + " " + user.LastName,
+                    Date = RealId.CreatedAt.Year.ToString(),
+                    Description = RealId.Description,
                     Email = user.UserName,
-                    Garage= rooms.N_Garage,
+                    Garage = rooms.N_Garage,
                     UserPP = user.ImageName,
                     PhoneNumber = user.PhoneNumber,
-                    Features = RealId.RealESFeatures.Select(x=>x.Feature.Name).ToList()
+                    Features = RealId.RealESFeatures.Select(x => x.Feature.Name).ToList(),
+                    userID = _userManager.GetUserId(User).ToString(),
+                    RealID = id,
+                    Commentslist = RealId.Comments.Select(x => new Comments {CreatedAT = x.CreatedAT,Description = x.Description,User = x.User,UserID=x.UserID,RealESID=x.RealESID}).OrderByDescending(x=>x.CreatedAT).ToList(),
                 };
             }
-            
+
             return View(data);
         }
 
-    } 
+        public IActionResult PostComment(DetailsVM comm)
+        {
+            Comments commnt = new Comments { 
+            Id = Guid.NewGuid().ToString(),
+            Description = comm.Comment, 
+            RealESID = comm.RealID,
+            UserID = comm.userID,
+            CreatedAT = DateTime.Now
+
+            };
+            db.Comments.Add(commnt);
+            db.SaveChanges();
+            return RedirectToAction("Details", "RealES", new { id = comm.RealID });
+        }
+    }
 }
