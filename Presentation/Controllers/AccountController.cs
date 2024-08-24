@@ -18,14 +18,16 @@ namespace Presentation.Controllers
         public readonly IWebHostEnvironment _webHostEnvironment;
         public readonly UserManager<IdentityUser> _userManager;
 
-        public AccountController(UserManager<IdentityUser> user, RoleManager<IdentityRole> role, SignInManager<IdentityUser> signIn, IWebHostEnvironment webHostEnvironment)
+        public AccountController(UserManager<IdentityUser> user,
+                                 RoleManager<IdentityRole> role,
+                                 SignInManager<IdentityUser> signIn,
+                                 IWebHostEnvironment webHostEnvironment)
         {
             _roleManager = role;
             _userManager = user;
             _signInManager = signIn;
             _webHostEnvironment = webHostEnvironment;
         }
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM data)
         {
@@ -36,7 +38,7 @@ namespace Presentation.Controllers
             if (data.RememberMe == true)
             {
 
-            var res = await _signInManager.PasswordSignInAsync(data.Email, data.Password, true, false);
+                var res = await _signInManager.PasswordSignInAsync(data.Email, data.Password, true, false);
                 return RedirectToAction("Index", "Home");
 
             }
@@ -46,13 +48,12 @@ namespace Presentation.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
-           
-            
-       
+
+
+
 
 
         }
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -103,14 +104,13 @@ namespace Presentation.Controllers
             _signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
-
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Manage()
         {
 
             User resp = (User)await _userManager.GetUserAsync(User);
-           
+
 
             var data = new ManageProfileVM
             {
@@ -121,10 +121,10 @@ namespace Presentation.Controllers
                 City = resp.City,
                 PhoneNumber = resp.PhoneNumber,
                 Bio = resp.Bio
-              
-               
-                
-                
+
+
+
+
             };
             if (TempData["mess"] != null)
             {
@@ -137,7 +137,6 @@ namespace Presentation.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Manage(ManageProfileVM data)
@@ -175,7 +174,6 @@ namespace Presentation.Controllers
             return View(data);
 
         }
-
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> DeleteAccount(ManageProfileVM pw)
@@ -203,7 +201,6 @@ namespace Presentation.Controllers
             return RedirectToAction("Manage", "Account");
 
         }
-
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> ChangePassword(CheckPwVM pw)
@@ -216,12 +213,12 @@ namespace Presentation.Controllers
 
                 if (check)
                 {
-                    
+
                     var change = await _userManager.ChangePasswordAsync(getUser, pw.CurrentPassword, pw.NewPassword);
 
                     if (change.Succeeded)
-                    { 
-                        
+                    {
+
                         return RedirectToAction("Logout");
 
                     }
@@ -235,18 +232,16 @@ namespace Presentation.Controllers
                     TempData["mess"] = " couldn't change password ,Current password or new password is incorrect...!";
 
 
-                    return RedirectToAction("Manage","Account");
+                    return RedirectToAction("Manage", "Account");
                 }
             }
-                return RedirectToAction("Manage");
+            return RedirectToAction("Manage");
 
         }
-
-
         [HttpGet]
         public async Task<IActionResult> MyProfile()
         {
-            var user = (User) await _userManager.GetUserAsync(User);
+            var user = (User)await _userManager.GetUserAsync(User);
             var data = new MyProfileVM();
 
             if (user != null)
@@ -261,48 +256,52 @@ namespace Presentation.Controllers
                     BDay = user.BDay,
                     City = "Ka3ba",
                     Country = "KSA",
-                    Bio= user.Bio,
-                    ImageName = user.ImageName, 
-                    CoverName = user.CoverName, 
+                    Bio = user.Bio,
+                    ImageName = user.ImageName,
+                    CoverName = user.CoverName,
                 };
             }
 
             return View(data);
         }
-        public  async Task<IActionResult> UploadProfile(Image file)
+    
+        public async Task<IActionResult> UploadProfile(Image file)
         {
-            if(file != null)
+            if (file != null)
             {
                 var guid = Guid.NewGuid().ToString();
                 var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", guid + file.formFile.FileName);
-                using (var stream = new FileStream(path,FileMode.Create))
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
                     file.formFile.CopyTo(stream);
                 }
-                var currUser = (User) await _userManager.GetUserAsync(User);
-                if (currUser != null) {
+                var currUser = (User)await _userManager.GetUserAsync(User);
+                if (currUser != null)
+                {
                     currUser.ImageName = guid + file.formFile.FileName;
-                    currUser.ImagePath = path;  
+                    currUser.ImagePath = path;
                 }
                 await _userManager.UpdateAsync(currUser);
             }
             return RedirectToAction("MyProfile");
         }
-        public  async Task<IActionResult> UploadCover(Image file)
+       
+        public async Task<IActionResult> UploadCover(Image file)
         {
-            if(file != null)
+            if (file != null)
             {
                 var guid = Guid.NewGuid().ToString();
                 var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images", guid + file.formFile.FileName);
-                using (var stream = new FileStream(path,FileMode.Create))
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
                     file.formFile.CopyTo(stream);
                 }
-                var currUser = (User) await _userManager.GetUserAsync(User);
-                if (currUser != null) {
+                var currUser = (User)await _userManager.GetUserAsync(User);
+                if (currUser != null)
+                {
                     currUser.CoverName = guid + file.formFile.FileName;
-                    currUser.CoverPath = path;  
-                await _userManager.UpdateAsync(currUser);
+                    currUser.CoverPath = path;
+                    await _userManager.UpdateAsync(currUser);
                 }
             }
             return RedirectToAction("MyProfile");

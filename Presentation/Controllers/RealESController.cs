@@ -4,6 +4,7 @@ using Presentation.Data;
 using Presentation.Models;
 using Presentation.ViewModels.RealESVM;
 using System.Drawing;
+using System.Linq;
 
 namespace Presentation.Controllers
 {
@@ -20,17 +21,65 @@ namespace Presentation.Controllers
             _userManager = user;
             this.db = myDbContext;
         }
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult GetAllCountry()
         {
-            var data = db.RealES
-                .Include(x => x.Address)
-                .ThenInclude(x => x.Country)
-                .ThenInclude(x => x.Cities)
-                .ThenInclude(x => x.hoods)
-                .Include(x => x.Images)
-                .Include(x => x.Room)
-                .Include(x => x.User)
-                .ToList();
+            var data = db.Countries.ToList();
+            return Ok(data);
+        }
+
+
+        public async Task<IActionResult> Index(FilterVM fill)
+        {
+            var data = new List<RealES>();
+            data = db.RealES
+              .Include(x => x.Address)
+              .ThenInclude(x => x.Country)
+              .ThenInclude(x => x.Cities)
+              .ThenInclude(x => x.hoods)
+              .Include(x => x.Images)
+              .Include(x => x.Room)
+              .Include(x => x.User)
+              .Include(x => x.RealESFeatures)
+              .ThenInclude(x => x.Feature)
+              .Include(x => x.Category)
+              .ToList();
+            if (fill.Feature != null )
+            {
+                var selected = fill.Feature.Where(x => x.isSelected == true).Select(x => x.Id).ToList();
+                if (selected.Count != 0)
+                {
+                    data = data.Where(x => x.RealESFeatures.Any(x => selected.Contains(x.FeatureID))).ToList();
+                }
+            }
+            if (fill.Categories != null)
+            {
+                var selected = fill.Categories.Where(x => x.isSelected == true).Select(x => x.Id).ToList();
+                if (selected.Count != 0)
+                {
+
+                    data = data.Where(x => selected.Contains(x.Category.ID)).ToList();
+                }
+            }
+            if (fill.MinPrice > 0 && fill.MaxPrice < 10e5)
+            {
+                data = data.Where(x => x.Price <= fill.MaxPrice && x.Price >= fill.MinPrice).ToList();
+            }
+            if (fill.CountryFilter != null)
+            {
+                data = data.Where(x => x.Address.Country.ID == fill.CountryFilter).ToList();
+
+                if (fill.CityFilter != null)
+                {
+                    data = data.Where(x => x.Address.City.ID == fill.CityFilter).ToList();
+                    if (fill.HoodFilter != null)
+                    {
+                        data = data.Where(x => x.Address.Hood.ID == fill.HoodFilter).ToList();
+                    }
+                }
+            }
+
+
             List<CardVM> cardVM = new List<CardVM>();
             foreach (var card in data)
             {
@@ -49,10 +98,24 @@ namespace Presentation.Controllers
                     Price = card.Price,
                     Date = card.CreatedAt.ToShortDateString(),
                     UserID = card.UserID,
-                    RealId = card.ID
+                    RealId = card.ID,
+                    Categories = db.Categories.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList(),
+                    Features = db.Features.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList()
+                });
 
+            }
+            if (data.Count == 0)
+            {
+                cardVM.Add(new CardVM
+                {
+                    Categories = db.Categories.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList(),
+                    Features = db.Features.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList()
                 });
             }
+
+
+
+
             return View(cardVM);
         }
 
@@ -183,6 +246,7 @@ namespace Presentation.Controllers
             var data = db.Cities.Where(x => x.CountryId == id).ToList();
             return Ok(data);
         }
+
         public IActionResult GetHoods(string id)
         {
             var data = db.Hoods.Where(x => x.CityId == id).ToList();
@@ -191,7 +255,7 @@ namespace Presentation.Controllers
 
         public async Task<IActionResult> Details(string id)
         {
-            var RealId = db.RealES.Include(x=>x.Comments).ThenInclude(x=>x.User).Include(x => x.Images).Include(x => x.RealESFeatures).ThenInclude(x => x.Feature).FirstOrDefault(x => x.ID == id);
+            var RealId = db.RealES.Include(x => x.Comments).ThenInclude(x => x.User).Include(x => x.Images).Include(x => x.RealESFeatures).ThenInclude(x => x.Feature).FirstOrDefault(x => x.ID == id);
 
             var data = new DetailsVM();
             if (RealId != null)
@@ -199,7 +263,7 @@ namespace Presentation.Controllers
                 var address = db.Addresses.Include(x => x.Country).Include(x => x.City).Include(x => x.Hood).FirstOrDefault(x => x.AddressID == RealId.AddressID);
                 var rooms = db.Rooms.FirstOrDefault(x => x.RoomID == RealId.RoomID);
                 var user = (User)db.Users.FirstOrDefault(x => x.Id == RealId.UserID);
-               
+
                 data = new DetailsVM
                 {
                     ImageName = RealId.Images.Select(x => x.ImageName).ToList(),
@@ -222,7 +286,7 @@ namespace Presentation.Controllers
                     Features = RealId.RealESFeatures.Select(x => x.Feature.Name).ToList(),
                     userID = _userManager.GetUserId(User).ToString(),
                     RealID = id,
-                    Commentslist = RealId.Comments.Select(x => new Comments {CreatedAT = x.CreatedAT,Description = x.Description,User = x.User,UserID=x.UserID,RealESID=x.RealESID}).OrderByDescending(x=>x.CreatedAT).ToList(),
+                    Commentslist = RealId.Comments.Select(x => new Comments { CreatedAT = x.CreatedAT, Description = x.Description, User = x.User, UserID = x.UserID, RealESID = x.RealESID }).OrderByDescending(x => x.CreatedAT).ToList(),
                 };
             }
 
@@ -231,17 +295,25 @@ namespace Presentation.Controllers
 
         public IActionResult PostComment(DetailsVM comm)
         {
-            Comments commnt = new Comments { 
-            Id = Guid.NewGuid().ToString(),
-            Description = comm.Comment, 
-            RealESID = comm.RealID,
-            UserID = comm.userID,
-            CreatedAT = DateTime.Now
+            Comments commnt = new Comments
+            {
+                Id = Guid.NewGuid().ToString(),
+                Description = comm.Comment,
+                RealESID = comm.RealID,
+                UserID = comm.userID,
+                CreatedAT = DateTime.Now
 
             };
             db.Comments.Add(commnt);
             db.SaveChanges();
             return RedirectToAction("Details", "RealES", new { id = comm.RealID });
         }
+
+        public IActionResult NotFound()
+        {
+
+            return View();
+        }
+
     }
 }

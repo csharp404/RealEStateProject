@@ -1,10 +1,12 @@
-﻿namespace Presentation.ViewModels.RealESVM
+﻿using System.Web.Mvc;
+
+namespace Presentation.ViewModels.RealESVM
 {
     public class CardVM
     {
         public string RealId { get; set; }
         public List<string> ImageName { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public int Price { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
@@ -16,8 +18,7 @@
         public string UserPP { get; set; }
         public string UserID{ get; set; }
         public string Date { get; set; }
-
-
-
+       public List<SelectionFeatures> Categories { get; set; }
+        public List<SelectionFeatures> Features { get; set; } 
     }
 }

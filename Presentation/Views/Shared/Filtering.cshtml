@@ -1,0 +1,161 @@
+﻿@model Presentation.ViewModels.RealESVM.FilterVM;
+
+@{
+    var item = Model.Categories;
+    var item2 = Model.Feature;
+}
+
+<form asp-action="Index" method="get">
+    <div class="listing__widget--inner">
+        <div class="widget__list mb-30">
+            <h2 class="widget__title mb-15">Product Catagories</h2>
+            <ul class="widget__catagories">
+
+               @*  @for (var i = 0; i<Model.Categories.Count;i++)
+                {
+
+
+                    <li class="widget__catagories__list">
+                        <label class="widget__catagories--label" asp-for="Categories[i].Name">@Model.Categories[i].Name</label>
+
+
+                        <input class="interior__amenities--check__input" id="@Model.Categories[i].Id" asp-for="Categories[i].Id" type="hidden">
+
+                        <input class="widget__catagories--input" id="@Model.Categories[i].Id" asp-for="Categories[i].isSelected" type=" checkbox">
+
+
+
+                        <span class="widget__catagories--checkmark"></span>
+                    </li>
+                }
+ *@
+
+                @for (int i = 0; i < Model.Categories.Count; i++)
+                {
+                    <li class="widget__catagories__list">
+                        <label class="widget__catagories--label" id="@item[i].Id" asp-for="@item[i].Name">@item[i].Name</label>
+                        <input class="interior__amenities--check__input"  asp-for="Categories[i].Id" type="hidden">
+
+                        <input class="widget__catagories--input" id="@item[i].Id" asp-for="Categories[i].isSelected" type="checkbox">
+                        <span class="widget__catagories--checkmark"></span>
+                    </li>
+                    
+                }
+
+            </ul>
+        </div> 
+        <div class="widget__list mb-30">
+            <h2 class="widget__title mb-15">Product Catagories</h2>
+            <ul class="widget__catagories">
+
+                @for (int i = 0; i < Model.Feature.Count; i++)
+                {
+                    <li class="widget__catagories__list">
+                        <label class="widget__catagories--label" id="@item2[i].Id" asp-for="@item2[i].Name">@item2[i].Name</label>
+                        <input class="interior__amenities--check__input" asp-for="Feature[i].Id" type="hidden">
+
+                        <input class="widget__catagories--input" id="@item2[i].Id" asp-for="Feature[i].isSelected" type="checkbox">
+                        <span class="widget__catagories--checkmark"></span>
+                    </li>
+
+                }
+
+            </ul>
+        </div>
+
+       <div class="widget__list mb-40">
+    <h2 class="widget__title mb-30">Price Filtering</h2>
+    <div class="widget__price--filtering">
+        <div class="price-input">
+            <input type="number" class="" asp-for="MinPrice" value="1" min="1"  step="100">
+            <div class="separator">-</div>
+            <input type="number" class="" asp-for="MaxPrice" value="15000"  max="100000" step="100">
+        </div>
+       
+        <button class="price__filtering--btn" type="submit">Filter</button>
+    </div>
+  
+</div>
+
+        <div class="widget__list mb-40">
+            <h2 class="widget__title mb-30">Find By Location</h2>
+            <ul class="widget__location">
+
+                <select class="add__listing--form__select mb-3" asp-for="CountryFilter" id="Country">
+                    <option selected="" value="">Select Country</option>
+                </select>
+                <select class="add__listing--form__select mb-3" asp-for="CityFilter" id="cities">
+                    <option selected="" value="">Select City</option>
+                </select>
+                <select class="add__listing--form__select mb-3" asp-for="HoodFilter" id="hoods">
+                    <option selected="" value="">Select Neighborhood</option>
+                </select>
+            </ul>
+        </div>
+
+
+    </div>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+  
+            
+            $.ajax({
+                url: "https://localhost:7091/RealES/GetAllCountry",
+                type: "GET",
+                success: function (response) {
+                    $("#cities").empty();
+                    $("#hoods").empty(); // Clear existing options
+                    for (var i in response) {
+                        $("#Country").append("<option value='" + response[i].id + "'>" + response[i].name + "</option>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+  
+    $(document).ready(function () {
+        $('#Country').on('change', function () {
+            var countryid = $(this).val(); // Get the selected country ID from the dropdown
+            $.ajax({
+                url: "https://localhost:7091/RealES/GetCities?id=" + countryid,
+                type: "GET",
+                success: function (response) {
+                    $("#cities").empty();
+                    $("#hoods").empty(); // Clear existing options
+                    for (var i in response) {
+                        $("#cities").append("<option value='" + response[i].id + "'>" + response[i].name + "</option>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        $('#cities').on('change', function () {
+            var cityid = $(this).val(); // Get the selected country ID from the dropdown
+            $.ajax({
+                url: "https://localhost:7091/RealES/GetHoods?id=" + cityid,
+                type: "GET",
+                success: function (response) {
+                    $("#hoods").empty(); // Clear existing options
+                    for (var i in response) {
+                        $("#hoods").append("<option value='" + response[i].id + "'>" + response[i].name + "</option>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+
+
+
+</script>
