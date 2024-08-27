@@ -67,9 +67,9 @@
     <h2 class="widget__title mb-30">Price Filtering</h2>
     <div class="widget__price--filtering">
         <div class="price-input">
-            <input type="number" class="" asp-for="MinPrice" value="1" min="1"  step="100">
+            <input type="number" class="" asp-for="MinPrice" value="10" min="10"  step="1">
             <div class="separator">-</div>
-            <input type="number" class="" asp-for="MaxPrice" value="15000"  max="100000" step="100">
+            <input type="number" class="" asp-for="MaxPrice" value="15000"  max="1000000" step="1">
         </div>
        
         <button class="price__filtering--btn" type="submit">Filter</button>

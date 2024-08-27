@@ -36,11 +36,17 @@ namespace Presentation.Data
             modelBuilder.Entity<RealESService>().HasKey(x => new { x.ServiceID, x.RealESId }); // corrected RealESId to RealESID
             modelBuilder.Entity<Favorite>().HasKey(x => new { x.RealESID, x.UserID });
 
+            modelBuilder.Entity<RealESFeature>()
+                .HasOne(rf => rf.RealES)  // Assuming RealES is the navigation property
+                .WithMany(r => r.RealESFeatures)  // Assuming RealESFeatures is the collection in the RealES entity
+                .HasForeignKey(rf => rf.RealESID)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<Favorite>()
                 .HasOne(f => f.User)
                 .WithMany(u => u.Favorites)
                 .HasForeignKey(f => f.UserID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Favorite>()
                 .HasOne(f => f.RealES)
@@ -52,13 +58,13 @@ namespace Presentation.Data
                 .HasOne(c => c.RealES)
                 .WithMany(re => re.Comments)
                 .HasForeignKey(c => c.RealESID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comments>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Entity<Address>()
@@ -70,7 +76,9 @@ namespace Presentation.Data
             modelBuilder.Entity<Address>()
                    .HasOne(a => a.RealES)
                    .WithOne(r => r.Address)
-                   .HasForeignKey<RealES>(r => r.AddressID);
+                   .HasForeignKey<RealES>(r => r.AddressID).OnDelete(DeleteBehavior.Cascade);
+
+            
 
 
 
@@ -90,9 +98,9 @@ namespace Presentation.Data
 
             modelBuilder.Entity<Room>()
                .HasOne(c => c.RealES)
-              .WithOne(x=>x.Room)
+              .WithOne(x => x.Room)
               .HasForeignKey<RealES>(x => x.RoomID)
-              .OnDelete(DeleteBehavior.Restrict);
+              .OnDelete(DeleteBehavior.Cascade);
 
 
         }

@@ -5,7 +5,9 @@ using Presentation.Models;
 using Presentation.ViewModels.RealESVM;
 using System.Drawing;
 using System.Linq;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 namespace Presentation.Controllers
 {
     public class RealESController : Controller
@@ -44,7 +46,7 @@ namespace Presentation.Controllers
               .ThenInclude(x => x.Feature)
               .Include(x => x.Category)
               .ToList();
-            if (fill.Feature != null )
+            if (fill.Feature != null)
             {
                 var selected = fill.Feature.Where(x => x.isSelected == true).Select(x => x.Id).ToList();
                 if (selected.Count != 0)
@@ -100,7 +102,8 @@ namespace Presentation.Controllers
                     UserID = card.UserID,
                     RealId = card.ID,
                     Categories = db.Categories.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList(),
-                    Features = db.Features.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList()
+                    Features = db.Features.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList(),
+                   
                 });
 
             }
@@ -119,20 +122,83 @@ namespace Presentation.Controllers
             return View(cardVM);
         }
 
-        public async Task<IActionResult> Create()
+        [HttpGet]
+        public async Task<IActionResult> Create(string id)
         {
 
-
+           
             var types = db.Categories.ToList();
-            var data = new CreateVM
-            {
+            var data = new CreateVM();
 
-                CategoryListItems = types.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList(),
-                CountriesListItems = db.Countries.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList(),
-                Features = db.Features.Select(x => new SelectionFeatures { Name = x.Name, Id = x.ID }).ToList(),
-            };
+
+
+            data.CategoryListItems = types.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList();
+            data.CountriesListItems = db.Countries.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList();
+            data.Features = db.Features.Select(x => new SelectionFeatures { Name = x.Name, Id = x.ID }).ToList();
+            
+            if (id==null)
+            {
             return View(data);
+              
+            }
+            else
+            {
+                var realES = await 
+                    db.RealES
+             .Include(x => x.Address)
+             .ThenInclude(x => x.Country)
+             .ThenInclude(x => x.Cities)
+             .ThenInclude(x => x.hoods)
+             .Include(x => x.Images)
+             .Include(x => x.Room)
+             .Include(x => x.User)
+             .Include(x => x.RealESFeatures.Where(x=>x.RealESID==id))
+             .ThenInclude(x => x.Feature)
+             .Include(x => x.Category)
+             .FirstOrDefaultAsync(x=>x.ID==id);
+
+
+                List<SelectionFeatures> r = new List<SelectionFeatures>();
+                foreach (var fg in data.Features)
+                {
+                    bool f = true;
+                    foreach(var i in realES.RealESFeatures)
+                    {
+                        if (fg.Id == i.FeatureID)
+                        {
+                            r.Add(new SelectionFeatures { Id = fg.Id, Name = fg.Name, isSelected = true });
+                            f = false;
+                            break;
+                        }
+                    }
+
+                  if(f)
+                       { r.Add(new SelectionFeatures { Id = fg.Id, Name = fg.Name, isSelected = false }); }
+
+                }
+                data.IDRealES = realES.ID;
+                data.Name = realES.Name;
+                data.Price = realES.Price;
+                data.Description = realES.Description;
+                data.IDAddress = realES.AddressID;
+                data.IDRoom = realES.RoomID;
+                data.Area_Size = realES.Area_Size;
+                data.Email = realES.Email;
+                data.PhoneNumber = realES.PhoneNumber;
+                data.CategoryId = realES.CategoryID;
+                data.Features = r;
+                data.CountryId = realES.Address.CountryID;
+                data.CityId = realES.Address.CityID;
+                data.HoodId = realES.Address.HoodID;
+                data.NRooms = realES.Room.N_Rooms;
+                data.N_Bedroom = realES.Room.N_Bedroom;
+                data.N_Bathroom=realES.Room.N_Bathroom;
+                data.Carage = realES.Room.N_Garage;
+                data.UserID = _userManager.GetUserId(User);
+                return View(data);  
+            }
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateVM prop)
         {
@@ -234,8 +300,8 @@ namespace Presentation.Controllers
             var data = new CreateVM
             {
 
-                CategoryListItems = types.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList(),
-                CountriesListItems = db.Countries.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList(),
+                CategoryListItems = types.Select(x => new SelectListItem { Text = x.Name, Value = x.ID }).ToList(),
+                CountriesListItems = db.Countries.Select(x => new SelectListItem { Text = x.Name, Value = x.ID }).ToList(),
                 Features = db.Features.Select(x => new SelectionFeatures { Name = x.Name, Id = x.ID }).ToList(),
             };
             return View(data);
@@ -313,6 +379,129 @@ namespace Presentation.Controllers
         {
 
             return View();
+        }
+
+
+        public async Task<IActionResult> Favorites()
+        {
+            var userID = _userManager.GetUserId(User);
+            
+            var realEs = db.RealES
+                .Include(x=>x.Favorites.Where(x=>x.UserID==userID))
+                .Include(x=>x.User)
+                .Include(x=>x.Images)
+                .Include(x=>x.Address)
+                .ThenInclude(x=>x.Country)
+                .ThenInclude(x=>x.Cities)
+                .ThenInclude(x=>x.hoods)
+                .ToList();
+
+            var data = new List<FavVM>();
+            
+            foreach(var fav in realEs)
+            {
+                data.Add
+                (
+                    new FavVM 
+                    { 
+                        RealId=fav.ID,
+                        ImageName = fav.Images.FirstOrDefault().ImageName,
+                        Title = fav.Name,
+                        Price= fav.Price,
+                        Country = fav.Address.Country.Name,
+                        City = fav.Address.City.Name,
+                        Hood = fav.Address.Hood.Name
+
+                    }
+                );
+            }
+
+            return View();
+
+        }
+
+        public IActionResult MakeitFavorite(string id)
+        {
+            var userID = _userManager.GetUserId(User);
+            var check = db.Favorites.Where(x => x.UserID == userID && x.RealESID == id).ToList();
+            if(check.Count > 0)
+            {
+                return RedirectToAction("RemoveitFavorite", new { id = id });
+            }
+            var fav = new Favorite
+            {
+                RealESID = id,
+                UserID= userID
+            }
+            ;
+            db.Favorites.Add(fav);
+            db.SaveChanges();
+
+            return Ok(1);
+
+        }
+
+        public IActionResult RemoveitFavorite(string id)
+        {
+
+            var userID = _userManager.GetUserId(User);
+            var fav = new Favorite
+            {
+                RealESID = id,
+                UserID = userID
+            }
+            ;
+            db.Favorites.Remove(fav);
+            db.SaveChanges();
+            return Ok(0);
+
+        }
+
+        public IActionResult Myproperties()
+        {
+            var userID = _userManager.GetUserId(User);
+            var data = db.RealES.Where(x=>x.UserID==userID)
+                .Include(x => x.Images)
+                .Include(x => x.Address)
+                .ThenInclude(x => x.Country)
+                .ThenInclude(x => x.Cities)
+                .ThenInclude(x => x.hoods)
+                .ToList();
+            var MyProp = new List<FavVM>();
+
+            foreach (var prop in data)
+            {
+                MyProp.Add
+                (
+                    new FavVM
+                    {
+                        RealId = prop.ID,
+                        ImageName = prop.Images.FirstOrDefault().ImageName,
+                        Title = prop.Name,
+                        Price = prop.Price,
+                        Country = prop.Address.Country.Name,
+                        City = prop.Address.City.Name,
+                        Hood = prop.Address.Hood.Name
+
+                    }
+                );
+            }
+            return View(MyProp);
+        }
+        
+        
+        
+        [HttpGet]
+        public IActionResult RemoveMyproperties(string id)
+        {
+            var reales= db.RealES.Include(x=>x.Comments).Include(x=>x.Address).Include(x=>x.Favorites).Include(x=>x.RealESFeatures).Include(x=>x.Images).FirstOrDefault(x=>x.ID==id);
+            var address= db.Addresses.Where(x=>x.RealESID==id).FirstOrDefault();
+            var room = db.Rooms.Where(x=>x.RealESId==id).FirstOrDefault();
+            db.RealES.Remove(reales);
+            db.Addresses.Remove(address);
+            db.Rooms.Remove(room);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
     }

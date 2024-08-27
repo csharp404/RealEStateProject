@@ -1,8 +1,10 @@
 ﻿@model IEnumerable< Presentation.ViewModels.RealESVM.CardVM>
 @*
+   
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var count = 0;
 }
 <div class="listing__main--content">
     <div class="tab-content">
@@ -25,15 +27,14 @@
                                 <h3 class="featured__card--title"><a href="./listing-details.html">@item.Title</a></h3>
                                 <ul class="featured__list--action d-flex">
                                     <li class="featured__share--btn__list">
-                                        <a class="featured__share--btn" href="listing.html">
-                                            <i class="bi bi-heart"></i>
+                                        <button class="featured__share--btn addFavorite border-0" data-id="@item.RealId">
+                                            <i class="bi bi-bookmark-heart" id="bookmark-@item.RealId" style="color:#f23b3b"></i>
                                             <span class="visually-hidden">Wishlist</span>
-                                        </a>
+                                        </button>
                                     </li>
-
-
                                 </ul>
                             </div>
+
                             <span class="featured__card--price">$ @item.Price</span>
                             <ul class="listing__featured--info d-flex">
                                 <li class="listing__featured--info__items">
@@ -133,3 +134,28 @@
         </ul>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.addFavorite').on('click', function () {
+            var realId = $(this).data('id'); // Get the RealId from the data attribute
+            var iconElement = $(this).find('i'); // Find the <i> element within the clicked button
+
+            $.ajax({
+                url: "https://localhost:7091/RealES/MakeitFavorite?id=" + realId,
+                type: "GET",
+                success: function (response) {
+                    if (response == 1) {
+                        iconElement.removeClass('bi-bookmark-heart').addClass('bi-bookmark-heart-fill');
+                    } else {
+                        iconElement.removeClass('bi-bookmark-heart-fill').addClass('bi-bookmark-heart');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>

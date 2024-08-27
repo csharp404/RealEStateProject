@@ -20,5 +20,6 @@ namespace Presentation.ViewModels.RealESVM
         public string Date { get; set; }
        public List<SelectionFeatures> Categories { get; set; }
         public List<SelectionFeatures> Features { get; set; } 
+        public bool isFav { get; set; } = false;
     }
 }
