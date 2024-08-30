@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="~/DbAssets/css/style.css">
     <link rel="stylesheet" href="~/DbAssets/css/dashboard.css">
     <link rel="stylesheet" href="~/DbAssets/css/dark.css">
+    <link rel="stylesheet" href="~/DbAssets/css/table.css">
     <link rel="stylesheet" href="~/DbAssets/css/creat-listing.css">
 
 
@@ -71,15 +72,15 @@
                 <nav class="offcanvas__menu">
                     <ul class="offcanvas__menu_ul">
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="../index.html">Home</a>
+                            <a class="offcanvas__menu_item" asp-action="Index" asp-controller="Home">Home</a>
 
                         </li>
                         <li class="offcanvas__menu_li">
-                            <a class="offcanvas__menu_item" href="../listing.html">Listing</a>
+                            <a class="offcanvas__menu_item" asp-action="Index" asp-controller="RealES">Properties</a>
 
                         </li>
 
-                        <li class="offcanvas__menu_li"><a class="offcanvas__menu_item" href="./my-properties.html">Properties</a></li>
+                        <li class="offcanvas__menu_li"><a class="offcanvas__menu_item" asp-action="MyProperties" asp-controller="RealES">Properties</a></li>
 
 
 
@@ -139,25 +140,20 @@
                 </li>
 
                 <li class="sidebar__menu--items">
-                    <a class="sidebar__menu--link" href="./my-favorites.html">
+                    <a class="sidebar__menu--link" asp-action="MyProperties" asp-controller="RealES">
                         <i class="bi bi-bar-chart-steps"></i>
                         <span class="sidebar__menu--text">My Properties</span>
                     </a>
                 </li>
                 <li class="sidebar__menu--items">
-                    <a class="sidebar__menu--link" href="./my-favorites.html">
+                    <a class="sidebar__menu--link" asp-action="Favorites" asp-controller="RealES">
                         <i class="bi bi-star-fill"></i>
                         <span class="sidebar__menu--text">My Favorites</span>
                     </a>
                 </li>
 
 
-                <li class="sidebar__menu--items">
-                    <a class="sidebar__menu--link" href="./profile.html">
-                        <i class="bi bi-patch-question"></i>
-                        <span class="sidebar__menu--text">Reviews</span>
-                    </a>
-                </li>
+               
                 <li class="sidebar__menu--items">
                     <label class="sidebar__menu--title">Manage Account</label>
                 </li>

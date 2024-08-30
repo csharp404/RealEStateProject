@@ -6,7 +6,7 @@ namespace Presentation.ViewModels.RealESVM
     {
         public string? IDRealES { get; set; }
         public string? IDAddress { get; set; }
-
+        public int EditOrCreate { get; set; } = 0;
         public string? IDRoom { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

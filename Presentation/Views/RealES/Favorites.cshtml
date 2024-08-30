@@ -1,8 +1,9 @@
-﻿@{
+﻿@model IEnumerable<Presentation.ViewModels.RealESVM.FavVM>
+@{
     Layout = "_Dashboard";
 }
 
-<main class="main__content_wrapper">
+
     <!-- dashboard container -->
     <div class="dashboard__container dashboard__reviews--container">
         <div class="reviews__heading mb-30">
@@ -19,212 +20,39 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                    @foreach(var item in Model)
+                    {
+                    <tr>
                             <td>
                                 <div class="properties__author d-flex align-items-center">
                                     <div class="properties__author--thumb">
-                                        <img src="./assets/img/dashboard/properties-author1.png" alt="img">
+                                        <img src="~/Images/RealESImages/@item.ImageName" alt="img" width="64px" height="64px">
                                     </div>
                                     <div class="reviews__author--text">
-                                        <h3 class="reviews__author--title">Luxury Family Home</h3>
-                                        <p class="reviews__author--subtitle">1421 San Pedro St, Los Angeles, CA 900015</p>
-                                        <span class="properties__author--price">$19000/mo</span>
+                                        <h3 class="reviews__author--title">@item.Title</h3>
+                                        <p class="reviews__author--subtitle">@item.Country, @item.City, @item.Hood</p>
+                                        <span class="properties__author--price">$@item.Price</span>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div class="reviews__action--wrapper position-relative">
-                                    <button class="reviews__action--btn" aria-label="action button" type="button" aria-expanded="true" data-bs-toggle="dropdown">
-                                        <svg width="3" height="17" viewBox="0 0 3 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="8.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="15.5" r="1.5" fill="currentColor" />
-                                        </svg>
-                                    </button>
-                                    <ul class="dropdown-menu sold-out__user--dropdown " data-popper-placement="bottom-start">
-                                        <li><a data-bs-toggle="modal" href="#">Edit</a></li>
-                                        <li><a data-bs-toggle="modal" href="#">Remove</a></li>
-                                    </ul>
+
+
+                                    <a asp-action="RemoveitFavoriteDashboard" asp-controller="RealES" asp-route-id="@item.RealId">Remove</a>
+                                    
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>
-                                <div class="properties__author d-flex align-items-center">
-                                    <div class="properties__author--thumb">
-                                        <img src="./assets/img/dashboard/properties-author2.png" alt="img">
-                                    </div>
-                                    <div class="reviews__author--text">
-                                        <h3 class="reviews__author--title">White House villa</h3>
-                                        <p class="reviews__author--subtitle">1421 San Pedro St, Los Angeles, CA 900015</p>
-                                        <span class="properties__author--price">$18000/mo</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="reviews__action--wrapper position-relative">
-                                    <button class="reviews__action--btn" aria-label="action button" type="button" aria-expanded="true" data-bs-toggle="dropdown">
-                                        <svg width="3" height="17" viewBox="0 0 3 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="8.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="15.5" r="1.5" fill="currentColor" />
-                                        </svg>
-                                    </button>
-                                    <ul class="dropdown-menu sold-out__user--dropdown " data-popper-placement="bottom-start">
-                                        <li><a data-bs-toggle="modal" href="#">Edit</a></li>
-                                        <li><a data-bs-toggle="modal" href="#">Remove</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="properties__author d-flex align-items-center">
-                                    <div class="properties__author--thumb">
-                                        <img src="./assets/img/dashboard/properties-author3.png" alt="img">
-                                    </div>
-                                    <div class="reviews__author--text">
-                                        <h3 class="reviews__author--title">Luxury villa in Dal lake</h3>
-                                        <p class="reviews__author--subtitle">1421 San Pedro St, Los Angeles, CA 900015</p>
-                                        <span class="properties__author--price">$83000/mo</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="reviews__action--wrapper position-relative">
-                                    <button class="reviews__action--btn" aria-label="action button" type="button" aria-expanded="true" data-bs-toggle="dropdown">
-                                        <svg width="3" height="17" viewBox="0 0 3 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="8.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="15.5" r="1.5" fill="currentColor" />
-                                        </svg>
-                                    </button>
-                                    <ul class="dropdown-menu sold-out__user--dropdown " data-popper-placement="bottom-start">
-                                        <li><a data-bs-toggle="modal" href="#">Edit</a></li>
-                                        <li><a data-bs-toggle="modal" href="#">Remove</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="properties__author d-flex align-items-center">
-                                    <div class="properties__author--thumb">
-                                        <img src="./assets/img/dashboard/properties-author4.png" alt="img">
-                                    </div>
-                                    <div class="reviews__author--text">
-                                        <h3 class="reviews__author--title">Wooden World</h3>
-                                        <p class="reviews__author--subtitle">1421 San Pedro St, Los Angeles, CA 900015</p>
-                                        <span class="properties__author--price">$63000/mo</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="reviews__action--wrapper position-relative">
-                                    <button class="reviews__action--btn" aria-label="action button" type="button" aria-expanded="true" data-bs-toggle="dropdown">
-                                        <svg width="3" height="17" viewBox="0 0 3 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="8.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="15.5" r="1.5" fill="currentColor" />
-                                        </svg>
-                                    </button>
-                                    <ul class="dropdown-menu sold-out__user--dropdown " data-popper-placement="bottom-start">
-                                        <li><a data-bs-toggle="modal" href="#">Edit</a></li>
-                                        <li><a data-bs-toggle="modal" href="#">Remove</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="properties__author d-flex align-items-center">
-                                    <div class="properties__author--thumb">
-                                        <img src="./assets/img/dashboard/properties-author5.png" alt="img">
-                                    </div>
-                                    <div class="reviews__author--text">
-                                        <h3 class="reviews__author--title">Orkit Villa</h3>
-                                        <p class="reviews__author--subtitle">1421 San Pedro St, Los Angeles, CA 900015</p>
-                                        <span class="properties__author--price">$1000/mo</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="reviews__action--wrapper position-relative">
-                                    <button class="reviews__action--btn" aria-label="action button" type="button" aria-expanded="true" data-bs-toggle="dropdown">
-                                        <svg width="3" height="17" viewBox="0 0 3 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="8.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="15.5" r="1.5" fill="currentColor" />
-                                        </svg>
-                                    </button>
-                                    <ul class="dropdown-menu sold-out__user--dropdown " data-popper-placement="bottom-start">
-                                        <li><a data-bs-toggle="modal" href="#">Edit</a></li>
-                                        <li><a data-bs-toggle="modal" href="#">Remove</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="properties__author d-flex align-items-center">
-                                    <div class="properties__author--thumb">
-                                        <img src="./assets/img/dashboard/properties-author6.png" alt="img">
-                                    </div>
-                                    <div class="reviews__author--text">
-                                        <h3 class="reviews__author--title">Single Family Home</h3>
-                                        <p class="reviews__author--subtitle">1421 San Pedro St, Los Angeles, CA 900015</p>
-                                        <span class="properties__author--price">$20000/mo</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="reviews__action--wrapper position-relative">
-                                    <button class="reviews__action--btn" aria-label="action button" type="button" aria-expanded="true" data-bs-toggle="dropdown">
-                                        <svg width="3" height="17" viewBox="0 0 3 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="8.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="15.5" r="1.5" fill="currentColor" />
-                                        </svg>
-                                    </button>
-                                    <ul class="dropdown-menu sold-out__user--dropdown " data-popper-placement="bottom-start">
-                                        <li><a data-bs-toggle="modal" href="#">Edit</a></li>
-                                        <li><a data-bs-toggle="modal" href="#">Remove</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="properties__author d-flex align-items-center">
-                                    <div class="properties__author--thumb">
-                                        <img src="./assets/img/dashboard/properties-author7.png" alt="img">
-                                    </div>
-                                    <div class="reviews__author--text">
-                                        <h3 class="reviews__author--title">Gorgeous Villa Bay View</h3>
-                                        <p class="reviews__author--subtitle">1421 San Pedro St, Los Angeles, CA 900015</p>
-                                        <span class="properties__author--price">$11000/mo</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="reviews__action--wrapper position-relative">
-                                    <button class="reviews__action--btn" aria-label="action button" type="button" aria-expanded="true" data-bs-toggle="dropdown">
-                                        <svg width="3" height="17" viewBox="0 0 3 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="8.5" r="1.5" fill="currentColor" />
-                                            <circle cx="1.5" cy="15.5" r="1.5" fill="currentColor" />
-                                        </svg>
-                                    </button>
-                                    <ul class="dropdown-menu sold-out__user--dropdown " data-popper-placement="bottom-start">
-                                        <li><a data-bs-toggle="modal" href="#">Edit</a></li>
-                                        <li><a data-bs-toggle="modal" href="#">Remove</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
+                        
+                    }
+                      
                     </tbody>
                 </table>
             </div>
+            @*
+                Pagination
+            *@
             <div class="pagination__area">
                 <nav class="pagination justify-content-center">
                     <ul class="pagination__menu d-flex align-items-center justify-content-center">
@@ -247,9 +75,15 @@
                                 <span class="visually-hidden">page left arrow</span>
                             </a>
                         </li>
-                        <li class="pagination__menu--items"><a href="#" class="pagination__menu--link">01</a></li>
-                        <li class="pagination__menu--items"><a href="#" class="pagination__menu--link active color-accent-1">02</a></li>
-                        <li class="pagination__menu--items"><a href="#" class="pagination__menu--link">03</a></li>
+
+                    <li class="pagination__menu--items"><a href="#" class="pagination__menu--link active color-accent-1">1</a></li>
+
+                    @for(int i = 2; i < Math.Ceiling(Model.Count()/5.0); i++)
+                    {
+                        <li class="pagination__menu--items"><a href="#" class="pagination__menu--link ">@i</a></li>
+
+                    }
+                        
                         <li class="pagination__menu--items pagination__arrow d-flex">
                             <a href="#" class="pagination__arrow-icon link">
                                 <svg width="12" height="22" viewBox="0 0 12 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -274,12 +108,6 @@
             </div>
         </div>
     </div>
+<script src="~/DbAssets/js/script.js"></script>
     <!-- dashboard container .\ -->
-    <!-- Start footer section -->
-    <footer class="footer footer__section">
-        <div class="dashboard__footer--inner text-center">
-            <p class="copyright__content mb-0">Copyright © 2024 Powered By <span>NewVilla</span>. Designed with  by <a class="copyright__content--link" target="_blank" href="https://themeforest.net/search/hooktheme">Hooktheme</a>  All Rights Reserved.</p>
-        </div>
-    </footer>
-    <!-- End footer section -->
-</main>
+   

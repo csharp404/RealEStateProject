@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Presentation.Controllers
 {
     public class RealESController : Controller
@@ -103,7 +104,7 @@ namespace Presentation.Controllers
                     RealId = card.ID,
                     Categories = db.Categories.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList(),
                     Features = db.Features.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList(),
-                   
+
                 });
 
             }
@@ -126,7 +127,7 @@ namespace Presentation.Controllers
         public async Task<IActionResult> Create(string id)
         {
 
-           
+
             var types = db.Categories.ToList();
             var data = new CreateVM();
 
@@ -135,15 +136,15 @@ namespace Presentation.Controllers
             data.CategoryListItems = types.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList();
             data.CountriesListItems = db.Countries.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList();
             data.Features = db.Features.Select(x => new SelectionFeatures { Name = x.Name, Id = x.ID }).ToList();
-            
-            if (id==null)
+
+            if (id == null)
             {
-            return View(data);
-              
+                return View(data);
+
             }
             else
             {
-                var realES = await 
+                var realES = await
                     db.RealES
              .Include(x => x.Address)
              .ThenInclude(x => x.Country)
@@ -152,17 +153,17 @@ namespace Presentation.Controllers
              .Include(x => x.Images)
              .Include(x => x.Room)
              .Include(x => x.User)
-             .Include(x => x.RealESFeatures.Where(x=>x.RealESID==id))
+             .Include(x => x.RealESFeatures.Where(x => x.RealESID == id))
              .ThenInclude(x => x.Feature)
              .Include(x => x.Category)
-             .FirstOrDefaultAsync(x=>x.ID==id);
+             .FirstOrDefaultAsync(x => x.ID == id);
 
 
                 List<SelectionFeatures> r = new List<SelectionFeatures>();
                 foreach (var fg in data.Features)
                 {
                     bool f = true;
-                    foreach(var i in realES.RealESFeatures)
+                    foreach (var i in realES.RealESFeatures)
                     {
                         if (fg.Id == i.FeatureID)
                         {
@@ -172,8 +173,8 @@ namespace Presentation.Controllers
                         }
                     }
 
-                  if(f)
-                       { r.Add(new SelectionFeatures { Id = fg.Id, Name = fg.Name, isSelected = false }); }
+                    if (f)
+                    { r.Add(new SelectionFeatures { Id = fg.Id, Name = fg.Name, isSelected = false }); }
 
                 }
                 data.IDRealES = realES.ID;
@@ -192,10 +193,11 @@ namespace Presentation.Controllers
                 data.HoodId = realES.Address.HoodID;
                 data.NRooms = realES.Room.N_Rooms;
                 data.N_Bedroom = realES.Room.N_Bedroom;
-                data.N_Bathroom=realES.Room.N_Bathroom;
+                data.N_Bathroom = realES.Room.N_Bathroom;
                 data.Carage = realES.Room.N_Garage;
                 data.UserID = _userManager.GetUserId(User);
-                return View(data);  
+                data.EditOrCreate = 1;
+                return View(data);
             }
         }
 
@@ -286,13 +288,22 @@ namespace Presentation.Controllers
             };
 
 
-
-
-            await db.RealES.AddAsync(realES);
-            await db.RealESFeatures.AddRangeAsync(r);
-            await db.Addresses.AddAsync(address);
-            await db.Rooms.AddAsync(room);
-            await db.RealESImages.AddRangeAsync(images);
+                if(prop.EditOrCreate==1) {
+                
+                    db.RealES.Update(realES);
+                     db.RealESFeatures.UpdateRange(r);
+                    db.Addresses.Update(address);
+                     db.Rooms.Update(room);
+                     db.RealESImages.UpdateRange(images);
+                }
+                else{
+                    await db.RealES.AddAsync(realES);
+                    await db.RealESFeatures.AddRangeAsync(r);
+                    await db.Addresses.AddAsync(address);
+                    await db.Rooms.AddAsync(room);
+                    await db.RealESImages.AddRangeAsync(images);
+                }
+           
 
             await db.SaveChangesAsync();
 
@@ -385,29 +396,37 @@ namespace Presentation.Controllers
         public async Task<IActionResult> Favorites()
         {
             var userID = _userManager.GetUserId(User);
-            
+
+            var favs = db.Favorites
+                 .Where(x => x.UserID == userID)
+                 .Select(x => x.RealESID)
+                  .ToList();
+
             var realEs = db.RealES
-                .Include(x=>x.Favorites.Where(x=>x.UserID==userID))
-                .Include(x=>x.User)
-                .Include(x=>x.Images)
-                .Include(x=>x.Address)
-                .ThenInclude(x=>x.Country)
-                .ThenInclude(x=>x.Cities)
-                .ThenInclude(x=>x.hoods)
+                .Include(x => x.Favorites)
+                .Include(x => x.Images)
+                .Include(x => x.Address)
+                .ThenInclude(x => x.Country)
+                .ThenInclude(x => x.Cities)
+                .ThenInclude(x => x.hoods)
+                 .Where(x => favs.Contains(x.ID))
                 .ToList();
 
+
+
+
             var data = new List<FavVM>();
-            
-            foreach(var fav in realEs)
+
+            foreach (var fav in realEs)
             {
                 data.Add
                 (
-                    new FavVM 
-                    { 
-                        RealId=fav.ID,
+                    new FavVM
+                    {
+                        RealId = fav.ID,
                         ImageName = fav.Images.FirstOrDefault().ImageName,
                         Title = fav.Name,
-                        Price= fav.Price,
+                        Price = fav.Price,
                         Country = fav.Address.Country.Name,
                         City = fav.Address.City.Name,
                         Hood = fav.Address.Hood.Name
@@ -416,7 +435,7 @@ namespace Presentation.Controllers
                 );
             }
 
-            return View();
+            return View(data);
 
         }
 
@@ -424,14 +443,14 @@ namespace Presentation.Controllers
         {
             var userID = _userManager.GetUserId(User);
             var check = db.Favorites.Where(x => x.UserID == userID && x.RealESID == id).ToList();
-            if(check.Count > 0)
+            if (check.Count > 0)
             {
                 return RedirectToAction("RemoveitFavorite", new { id = id });
             }
             var fav = new Favorite
             {
                 RealESID = id,
-                UserID= userID
+                UserID = userID
             }
             ;
             db.Favorites.Add(fav);
@@ -453,14 +472,29 @@ namespace Presentation.Controllers
             ;
             db.Favorites.Remove(fav);
             db.SaveChanges();
-            return Ok(0);
+            return Ok();
+
+        }
+        public IActionResult RemoveitFavoriteDashboard(string id)
+        {
+
+            var userID = _userManager.GetUserId(User);
+            var fav = new Favorite
+            {
+                RealESID = id,
+                UserID = userID
+            }
+            ;
+            db.Favorites.Remove(fav);
+            db.SaveChanges();
+            return RedirectToAction("Favorites");
 
         }
 
-        public IActionResult Myproperties()
+        public IActionResult MyProperties()
         {
             var userID = _userManager.GetUserId(User);
-            var data = db.RealES.Where(x=>x.UserID==userID)
+            var data = db.RealES.Where(x => x.UserID == userID)
                 .Include(x => x.Images)
                 .Include(x => x.Address)
                 .ThenInclude(x => x.Country)
@@ -488,15 +522,15 @@ namespace Presentation.Controllers
             }
             return View(MyProp);
         }
-        
-        
-        
+
+
+
         [HttpGet]
-        public IActionResult RemoveMyproperties(string id)
+        public IActionResult RemoveMyProperties(string id)
         {
-            var reales= db.RealES.Include(x=>x.Comments).Include(x=>x.Address).Include(x=>x.Favorites).Include(x=>x.RealESFeatures).Include(x=>x.Images).FirstOrDefault(x=>x.ID==id);
-            var address= db.Addresses.Where(x=>x.RealESID==id).FirstOrDefault();
-            var room = db.Rooms.Where(x=>x.RealESId==id).FirstOrDefault();
+            var reales = db.RealES.Include(x => x.Comments).Include(x => x.Address).Include(x => x.Favorites).Include(x => x.RealESFeatures).Include(x => x.Images).FirstOrDefault(x => x.ID == id);
+            var address = db.Addresses.Where(x => x.RealESID == id).FirstOrDefault();
+            var room = db.Rooms.Where(x => x.RealESId == id).FirstOrDefault();
             db.RealES.Remove(reales);
             db.Addresses.Remove(address);
             db.Rooms.Remove(room);
