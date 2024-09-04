@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Net;
 namespace Presentation.Controllers
 {
     public class RealESController : Controller
@@ -136,7 +137,7 @@ namespace Presentation.Controllers
             data.CategoryListItems = types.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList();
             data.CountriesListItems = db.Countries.Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem { Text = x.Name, Value = x.ID }).ToList();
             data.Features = db.Features.Select(x => new SelectionFeatures { Name = x.Name, Id = x.ID }).ToList();
-
+            data.flag = false;
             if (id == null)
             {
                 return View(data);
@@ -196,7 +197,8 @@ namespace Presentation.Controllers
                 data.N_Bathroom = realES.Room.N_Bathroom;
                 data.Carage = realES.Room.N_Garage;
                 data.UserID = _userManager.GetUserId(User);
-                data.EditOrCreate = 1;
+
+                data.flag = true;
                 return View(data);
             }
         }
@@ -204,106 +206,169 @@ namespace Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateVM prop)
         {
-            var RealESid = Guid.NewGuid().ToString();
-            var AddressId = Guid.NewGuid().ToString();
-            var RoomId = Guid.NewGuid().ToString();
-            var ImageId = Guid.NewGuid().ToString();
-
-            Address address = new Address
+            if (!prop.flag)
             {
-                HoodID = prop.HoodId,
-                CityID = prop.CityId,
-                CountryID = prop.CountryId,
-                RealESID = RealESid,
-                AddressID = AddressId
-            };
-
-            Room room = new Room
-            {
-                N_Bathroom = prop.N_Bathroom,
-                N_Bedroom = prop.N_Bedroom,
-                N_Garage = prop.Carage,
-                N_Floors = "1",
-                N_Kitchen = "1",
-                N_LivingRoom = "1",
-                RealESId = RealESid,
-                RoomID = RoomId,
-                N_Rooms = prop.NRooms
-
-            };
-            List<RealESImages> images = new List<RealESImages>
-           ();
-            foreach (var item in prop.ImageFiles)
-            {
-                var guid = Guid.NewGuid().ToString();
-
-                var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images/RealESImages", guid + item.FileName);
-
-                using (var stream = new FileStream(path, FileMode.Create))
+                var RealESid = Guid.NewGuid().ToString();
+                var AddressId = Guid.NewGuid().ToString();
+                var RoomId = Guid.NewGuid().ToString();
+                var ImageId = Guid.NewGuid().ToString();
+                Address address = new Address
                 {
-                    item.CopyTo(stream);
+                    HoodID = prop.HoodId,
+                    CityID = prop.CityId,
+                    CountryID = prop.CountryId,
+                    RealESID = RealESid,
+                    AddressID = AddressId
                 };
-                images.Add(
-                   new RealESImages
-                   {
-                       ID = Guid.NewGuid().ToString(),
-                       ImageName = guid + item.FileName,
-                       ImagePath = path,
-                       RealESId = RealESid
-                   }
-                );
-            }
-            var features = prop.Features
-                   .Where(x => x.isSelected == true)
-                   .Select(x => x.Id)
-                   .ToList();
+                Room room = new Room
+                {
+                    N_Bathroom = prop.N_Bathroom,
+                    N_Bedroom = prop.N_Bedroom,
+                    N_Garage = prop.Carage,
+                    N_Floors = "1",
+                    N_Kitchen = "1",
+                    N_LivingRoom = "1",
+                    RealESId = RealESid,
+                    RoomID = RoomId,
+                    N_Rooms = prop.NRooms
 
-            List<RealESFeature> r = new List<RealESFeature>();
-            foreach (var fg in features)
-            {
-                r.Add(new RealESFeature { FeatureID = fg, RealESID = RealESid });
+                };
+                List<RealESImages> images = new List<RealESImages>
+          ();
+                foreach (var item in prop.ImageFiles)
+                {
+                    var guid = Guid.NewGuid().ToString();
 
-            }
+                    var path = Path.Combine(_webHostEnvironment.WebRootPath, "Images/RealESImages", guid + item.FileName);
 
-
-            RealES realES = new RealES
-            {
-                ID = RealESid,
-                Name = prop.Name,
-                Price = prop.Price,
-                Description = prop.Description,
-                AddressID = AddressId,
-                RoomID = RoomId,
-                Area_Size = prop.Area_Size,
-                Email = prop.Email,
-                PhoneNumber = prop.PhoneNumber,
-                CategoryID = prop.CategoryId,
-
-
-                RealESFeatures = r,
-
-                Images = images,
-                UserID = _userManager.GetUserId(User)
-
-            };
-
-
-                if(prop.EditOrCreate==1) {
-                
-                    db.RealES.Update(realES);
-                     db.RealESFeatures.UpdateRange(r);
-                    db.Addresses.Update(address);
-                     db.Rooms.Update(room);
-                     db.RealESImages.UpdateRange(images);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        item.CopyTo(stream);
+                    };
+                    images.Add(
+                       new RealESImages
+                       {
+                           ID = Guid.NewGuid().ToString(),
+                           ImageName = guid + item.FileName,
+                           ImagePath = path,
+                           RealESId = RealESid
+                       }
+                    );
                 }
-                else{
-                    await db.RealES.AddAsync(realES);
-                    await db.RealESFeatures.AddRangeAsync(r);
-                    await db.Addresses.AddAsync(address);
-                    await db.Rooms.AddAsync(room);
-                    await db.RealESImages.AddRangeAsync(images);
+                var features = prop.Features
+                       .Where(x => x.isSelected == true)
+                       .Select(x => x.Id)
+                       .ToList();
+
+                List<RealESFeature> r = new List<RealESFeature>();
+                foreach (var fg in features)
+                {
+                    r.Add(new RealESFeature { FeatureID = fg, RealESID = RealESid });
+
                 }
-           
+
+
+                RealES realES = new RealES
+                {
+                    ID = RealESid,
+                    Name = prop.Name,
+                    Price = prop.Price,
+                    Description = prop.Description,
+                    AddressID = AddressId,
+                    RoomID = RoomId,
+                    Area_Size = prop.Area_Size,
+                    Email = prop.Email,
+                    PhoneNumber = prop.PhoneNumber,
+                    CategoryID = prop.CategoryId,
+
+
+                    RealESFeatures = r,
+
+                    Images = images,
+                    UserID = _userManager.GetUserId(User)
+
+                };
+                await db.RealES.AddAsync(realES);
+                await db.RealESFeatures.AddRangeAsync(r);
+                await db.Addresses.AddAsync(address);
+                await db.Rooms.AddAsync(room);
+                await db.RealESImages.AddRangeAsync(images);
+            }
+            else
+            {
+                var realES = await
+                    db.RealES
+             .Include(x => x.Address)
+             .ThenInclude(x => x.Country)
+             .ThenInclude(x => x.Cities)
+             .ThenInclude(x => x.hoods)
+             .Include(x => x.Images)
+             .Include(x => x.Room)
+             .Include(x => x.User)
+             .Include(x => x.RealESFeatures)
+             .ThenInclude(x => x.Feature)
+             .Include(x => x.Category)
+             .FirstOrDefaultAsync(x => x.ID == prop.IDRealES);
+
+
+                realES.Name = prop.Name;
+                realES.Price = prop.Price;
+                realES.Description = prop.Description;
+                realES.AddressID = prop.IDAddress;
+                realES.RoomID = prop.IDRoom;
+                realES.Area_Size = prop.Area_Size;
+                realES.Email = prop.Email;
+                realES.PhoneNumber = prop.PhoneNumber;
+                realES.CategoryID = prop.CategoryId;
+
+                var features = prop.Features
+                .Where(x => x.isSelected == true)
+                .Select(x => x.Id)
+                .ToList();
+                List<RealESFeature> r = new List<RealESFeature>();
+                foreach (var fg in features)
+                {
+                    r.Add(new RealESFeature { FeatureID = fg, RealESID = prop.IDRealES });
+
+                }
+                realES.RealESFeatures = r;
+
+
+
+
+                realES.Room.N_Bathroom = prop.N_Bathroom;
+                realES.Room.N_Bedroom = prop.N_Bedroom;
+                realES.Room.N_Garage = prop.Carage;
+                realES.Room.N_Floors = "1";
+                realES.Room.N_Kitchen = "1";
+                realES.Room.N_LivingRoom = "1";
+                realES.Room.RealESId = prop.IDRealES;
+                realES.Room.RoomID = prop.IDRoom;
+                realES.Room.N_Rooms = prop.NRooms;
+
+                realES.Address.HoodID = prop.HoodId;
+                realES.Address.CityID = prop.CityId;
+                realES.Address.CountryID = prop.CountryId;
+                realES.Address.RealESID = prop.IDRealES;
+                realES.Address.AddressID = prop.IDAddress;
+
+                db.RealES.Update(realES);
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             await db.SaveChangesAsync();
 

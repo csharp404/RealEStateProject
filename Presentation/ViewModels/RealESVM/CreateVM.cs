@@ -6,7 +6,7 @@ namespace Presentation.ViewModels.RealESVM
     {
         public string? IDRealES { get; set; }
         public string? IDAddress { get; set; }
-        public int EditOrCreate { get; set; } = 0;
+       
         public string? IDRoom { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -22,6 +22,8 @@ namespace Presentation.ViewModels.RealESVM
         public List<SelectListItem> CitiesListItems { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> HoodsListItems { get; set; } = new List<SelectListItem>();
         public List<SelectListItem> CategoryListItems { get; set; } = new List<SelectListItem>();
+
+        public bool flag { get; set; }
 
         public string CategoryId { get; set; }
 
