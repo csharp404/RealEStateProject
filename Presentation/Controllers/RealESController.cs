@@ -33,8 +33,8 @@ namespace Presentation.Controllers
         }
         public async Task<IActionResult> Index(FilterVM fill)
         {
-            var data = new List<RealES>();
-            data = db.RealES
+           
+          var  data = db.RealES
               .Include(x => x.Address)
               .ThenInclude(x => x.Country)
               .ThenInclude(x => x.Cities)
@@ -45,13 +45,27 @@ namespace Presentation.Controllers
               .Include(x => x.RealESFeatures)
               .ThenInclude(x => x.Feature)
               .Include(x => x.Category)
-              .ToList();
+              .AsQueryable();
+            if(!string.IsNullOrEmpty(fill.Estate))
+            {
+               data =  data.Where(x => x.Name.Contains(fill.Estate));
+
+            } 
+            if(fill.Country != null)
+            {
+               data =  data.Where(x => x.Address.Country.Name.Contains(fill.Country));
+
+            }
+            if (fill.CategoryId != null)
+            {
+                data = data.Where(x=>x.CategoryID==fill.CategoryId);
+            }
             if (fill.Feature != null)
             {
                 var selected = fill.Feature.Where(x => x.isSelected == true).Select(x => x.Id).ToList();
                 if (selected.Count != 0)
                 {
-                    data = data.Where(x => x.RealESFeatures.Any(x => selected.Contains(x.FeatureID))).ToList();
+                    data = data.Where(x => x.RealESFeatures.Any(x => selected.Contains(x.FeatureID)));
                 }
             }
             if (fill.Categories != null)
@@ -60,30 +74,30 @@ namespace Presentation.Controllers
                 if (selected.Count != 0)
                 {
 
-                    data = data.Where(x => selected.Contains(x.Category.ID)).ToList();
+                    data = data.Where(x => selected.Contains(x.Category.ID));
                 }
             }
             if (fill.MinPrice > 0 && fill.MaxPrice < 10e5)
             {
-                data = data.Where(x => x.Price <= fill.MaxPrice && x.Price >= fill.MinPrice).ToList();
+                data = data.Where(x => x.Price <= fill.MaxPrice && x.Price >= fill.MinPrice);
             }
             if (fill.CountryFilter != null)
             {
-                data = data.Where(x => x.Address.Country.ID == fill.CountryFilter).ToList();
+                data = data.Where(x => x.Address.Country.ID == fill.CountryFilter);
 
                 if (fill.CityFilter != null)
                 {
-                    data = data.Where(x => x.Address.City.ID == fill.CityFilter).ToList();
+                    data = data.Where(x => x.Address.City.ID == fill.CityFilter);
                     if (fill.HoodFilter != null)
                     {
-                        data = data.Where(x => x.Address.Hood.ID == fill.HoodFilter).ToList();
+                        data = data.Where(x => x.Address.Hood.ID == fill.HoodFilter);
                     }
                 }
             }
 
 
             List<CardVM> cardVM = new List<CardVM>();
-            foreach (var card in data)
+            foreach (var card in data.ToList())
             {
                 cardVM.Add(new CardVM
                 {
@@ -107,7 +121,7 @@ namespace Presentation.Controllers
                 });
 
             }
-            if (data.Count == 0)
+            if (data.ToList().Count == 0)
             {
                 cardVM.Add(new CardVM
                 {
@@ -267,7 +281,7 @@ namespace Presentation.Controllers
                 RealES realES = new RealES
                 {
                     ID = RealESid,
-                    Name = prop.Name,
+                    Name = prop.Name.Trim(),
                     Price = prop.Price,
                     Description = prop.Description,
                     AddressID = AddressId,
@@ -307,7 +321,7 @@ namespace Presentation.Controllers
              .FirstOrDefaultAsync(x => x.ID == prop.IDRealES);
 
 
-                realES.Name = prop.Name;
+                realES.Name = prop.Name.Trim();
                 realES.Price = prop.Price;
                 realES.Description = prop.Description;
                 realES.AddressID = prop.IDAddress;

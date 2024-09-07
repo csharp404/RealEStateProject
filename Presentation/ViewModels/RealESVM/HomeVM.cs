@@ -9,6 +9,7 @@ namespace Presentation.ViewModels.RealESVM
         public string? Word { set; get; }
         public string? CategoryId { set; get; }    
         public string? PlaceCountry { set; get; }    
-        public string? Price { set; get; }   
+        public string? Price { set; get; }
+        public List<SelectionFeatures> Categories { get; set; }
     }
 }

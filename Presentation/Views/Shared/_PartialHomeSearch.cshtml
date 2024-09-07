@@ -1,0 +1,131 @@
+﻿@model Presentation.ViewModels.RealESVM.FilterVM;
+<form asp-action="Index" asp-controller="RealES">
+    <style>
+        /* Styling for #list autocomplete dropdown */
+        #list, #country {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            border: 1px solid #ccc;
+            max-height: 150px; /* Max height with scrolling */
+            overflow-y: auto;
+            width: 100%;
+            position: absolute; /* Ensure the ul is positioned properly */
+            z-index: 9999999 !important;  /* Higher z-index to ensure visibility */
+            background-color: #fff; /* Background to overlay on other elements */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+            #list li, #country li {
+                padding: 10px;
+                cursor: pointer;
+                border-bottom: 1px solid #eaeaea;
+                background-color: #fff;
+            }
+
+                #list li:hover, #country li:hover {
+                    background-color: #f2f2f2;
+                }
+       </style>
+
+
+
+<div class="advance__search--filter">
+
+    <div class="tab-content" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">
+        <div class="tab-pane fade show active" id="buy">
+            <div class="advance__search--inner d-flex">
+                <div class="advance__search--items">
+                    <input class="advance__search--input" id="word" asp-for="Estate" type="text">
+                        <ul id="list" >
+                            
+                        </ul>
+                </div>
+                <div class="advance__search--items">
+                        <select class="advance__search--select" asp-for="CategoryId" >
+                        <option selected value="">Property Type</option>
+                            @foreach(var i in Model.Categories)
+                            {
+                                <option  value="@i.Id">@i.Name</option>
+                            }
+
+                    </select>
+                </div>
+                <div class="advance__search--items  position-relative">
+                    <input class="advance__search--input location" id="loc" placeholder="Which Place?" asp-for="Country" type="text">
+                    <ul id="country">
+
+                    </ul>
+                    <span class="advance__location--icon">
+                        <svg width="11" height="17" viewBox="0 0 11 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.48287 0C2.45013 0 0 2.4501 0 5.48288C0 5.85982 0.0343013 6.21958 0.102785 6.57945C0.514031 9.69783 4.42055 11.9767 5.51712 16.4144C6.5966 12.0452 11 8.824 11 5.48288H10.9657C10.9657 2.45013 8.51548 0 5.48282 0H5.48287ZM5.48287 2.17592C7.21338 2.17592 8.61839 3.58097 8.61839 5.31144C8.61839 7.04191 7.21335 8.44696 5.48287 8.44696C3.7524 8.44696 2.34736 7.04191 2.34736 5.31144C2.34736 3.58097 3.75228 2.17592 5.48287 2.17592Z" fill="#8B8B8B" />
+                        </svg>
+                    </span>
+                </div>
+                
+                <button class="advance__search--btn solid__btn" type="submit">
+                    Search Now <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.60519 0C2.96319 0 0 2.96338 0 6.60562C0 10.2481 2.96319 13.2112 6.60519 13.2112C10.2474 13.2112 13.2104 10.2481 13.2104 6.60562C13.2104 2.96338 10.2474 0 6.60519 0ZM6.60519 11.9918C3.6355 11.9918 1.21942 9.57553 1.21942 6.60565C1.21942 3.63576 3.6355 1.2195 6.60519 1.2195C9.57487 1.2195 11.991 3.63573 11.991 6.60562C11.991 9.5755 9.57487 11.9918 6.60519 11.9918Z" fill="white" />
+                        <path d="M14.8206 13.9597L11.325 10.4638C11.0868 10.2256 10.701 10.2256 10.4628 10.4638C10.2246 10.7018 10.2246 11.088 10.4628 11.326L13.9585 14.8219C14.0776 14.941 14.2335 15.0006 14.3896 15.0006C14.5454 15.0006 14.7015 14.941 14.8206 14.8219C15.0588 14.5839 15.0588 14.1977 14.8206 13.9597Z" fill="white" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   
+        $('#word').on('input', function () {
+            var word = $(this).val(); // Get the selected country ID from the dropdown
+            $("#list").empty();
+            $.ajax({
+                url: "https://localhost:7091/Home/Search?word=" + word,
+                type: "GET",
+                success: function (response) {
+                  
+                    for (var i in response) {
+                        $("#list").append("<li>"+response[i]+"</li>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    $(document).ready(function () {
+        $('#list').on('click', function (event) {
+            $('#word').val(event.target.innerHTML);
+            $('#list').empty();
+        });
+    });
+
+     $(document).ready(function () {
+        $('#loc').on('input', function () {
+            var loc = $(this).val(); // Get the selected country ID from the dropdown
+            $("#country").empty();
+            $.ajax({
+                url: "https://localhost:7091/Home/Location?word=" + loc,
+                type: "GET",
+                success: function (response) {
+                   
+                    for (var i in response) {
+                        $("#country").append("<li>"+response[i]+"</li>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+    $(document).ready(function () {
+        $('#country').on('click', function (event) {
+            $('#loc').val(event.target.innerHTML);
+            $('#country').empty();
+        });
+    });
+</script>

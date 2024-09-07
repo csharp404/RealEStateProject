@@ -67,6 +67,7 @@ namespace Presentation.Controllers
                     CategotyId = g.Key,
                     Count = g.Count().ToString()
                 }).ToList(),
+                Categories = _db.Categories.Select(x => new SelectionFeatures { Id = x.ID, Name = x.Name, isSelected = false }).ToList(),
             };
 
             return View(data);
@@ -91,6 +92,23 @@ namespace Presentation.Controllers
         public IActionResult ContactUs()
         {
             return View();
+        }
+
+
+        public IActionResult Search(string word)
+        {
+            
+            var data = _db.RealES.Where(x=>x.Name.Contains(word)).Select(x=>x.Name).ToList();
+
+            return Ok(data);
+        }
+
+        public IActionResult Location(string word)
+        {
+
+            var data = _db.Countries.Where(x => x.Name.Contains(word)).Select(x => x.Name).ToList();
+
+            return Ok(data);
         }
 
     }
