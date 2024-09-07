@@ -8860,16 +8860,16 @@ body.overlay__active::before,
 }
 
 .main__footer {
-  padding: 17.5rem 0 3.2rem;
+  padding: 5.5rem 0 3.2rem;
 }
 @media only screen and (min-width: 768px) {
   .main__footer {
-    padding: 19rem 0 4rem;
+    padding: 7rem 0 4rem;
   }
 }
 @media only screen and (min-width: 1200px) {
   .main__footer {
-    padding: 20rem 0 8rem;
+    padding: 10rem 0 8rem;
   }
 }
 
