@@ -24,6 +24,7 @@ namespace Presentation.Data
         public DbSet<Services> Services { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,28 +44,28 @@ namespace Presentation.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Favorite>()
+      .HasOne(f => f.RealES)
+      .WithMany(r => r.Favorites)
+      .HasForeignKey(f => f.RealESID)
+      .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<Favorite>()
                 .HasOne(f => f.User)
                 .WithMany(u => u.Favorites)
                 .HasForeignKey(f => f.UserID)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Favorite>()
-                .HasOne(f => f.RealES)
-                .WithMany(r => r.Favorites)
-                .HasForeignKey(f => f.RealESID)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Comments>()
-                .HasOne(c => c.RealES)
-                .WithMany(re => re.Comments)
-                .HasForeignKey(c => c.RealESID)
-                .OnDelete(DeleteBehavior.Cascade);
+      .HasOne(c => c.RealES)
+      .WithMany(re => re.Comments)
+      .HasForeignKey(c => c.RealESID)
+      .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comments>()
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserID)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             modelBuilder.Entity<Address>()
@@ -78,7 +79,7 @@ namespace Presentation.Data
                    .WithOne(r => r.Address)
                    .HasForeignKey<RealES>(r => r.AddressID).OnDelete(DeleteBehavior.Cascade);
 
-            
+
 
 
 

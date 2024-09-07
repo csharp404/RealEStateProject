@@ -31,8 +31,6 @@ namespace Presentation.Controllers
             var data = db.Countries.ToList();
             return Ok(data);
         }
-
-
         public async Task<IActionResult> Index(FilterVM fill)
         {
             var data = new List<RealES>();
@@ -123,7 +121,6 @@ namespace Presentation.Controllers
 
             return View(cardVM);
         }
-
         [HttpGet]
         public async Task<IActionResult> Create(string id)
         {
@@ -202,7 +199,6 @@ namespace Presentation.Controllers
                 return View(data);
             }
         }
-
         [HttpPost]
         public async Task<IActionResult> Create(CreateVM prop)
         {
@@ -457,7 +453,6 @@ namespace Presentation.Controllers
             return View();
         }
 
-
         public async Task<IActionResult> Favorites()
         {
             var userID = _userManager.GetUserId(User);
@@ -540,6 +535,7 @@ namespace Presentation.Controllers
             return Ok();
 
         }
+
         public IActionResult RemoveitFavoriteDashboard(string id)
         {
 
@@ -587,9 +583,6 @@ namespace Presentation.Controllers
             }
             return View(MyProp);
         }
-
-
-
         [HttpGet]
         public IActionResult RemoveMyProperties(string id)
         {
