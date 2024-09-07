@@ -394,7 +394,9 @@ namespace Presentation.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var RealId = db.RealES.Include(x => x.Comments).ThenInclude(x => x.User).Include(x => x.Images).Include(x => x.RealESFeatures).ThenInclude(x => x.Feature).FirstOrDefault(x => x.ID == id);
-
+            RealId.Views++;
+            db.Update(RealId);
+            db.SaveChanges();
             var data = new DetailsVM();
             if (RealId != null)
             {
@@ -425,6 +427,8 @@ namespace Presentation.Controllers
                     userID = _userManager.GetUserId(User).ToString(),
                     RealID = id,
                     Commentslist = RealId.Comments.Select(x => new Comments { CreatedAT = x.CreatedAT, Description = x.Description, User = x.User, UserID = x.UserID, RealESID = x.RealESID }).OrderByDescending(x => x.CreatedAT).ToList(),
+                Views = RealId.Views,
+                
                 };
             }
 

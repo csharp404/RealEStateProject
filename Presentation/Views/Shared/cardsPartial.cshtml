@@ -3,9 +3,7 @@
    
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-    var count = 0;
-}
+
 <div class="listing__main--content">
     <div class="tab-content">
 
@@ -24,7 +22,7 @@
                         </div>
                         <div class="listing__featured--content">
                             <div class="featured__content--list__top d-flex justify-content-between">
-                                <h3 class="featured__card--title"><a href="./listing-details.html">@item.Title</a></h3>
+                                <h3 class="featured__card--title"><a asp-action="Details" asp-controller="RealES" asp-route-id="@item.RealId">@item.Title</a></h3>
                                 <ul class="featured__list--action d-flex">
                                     <li class="featured__share--btn__list">
                                         <button class="featured__share--btn addFavorite border-0" data-id="@item.RealId">
@@ -114,16 +112,8 @@
                     1
                 </a>
             </li>
-            <li class="page__pagination--list">
-                <a class="page__pagination--link active" href="#">
-                    2
-                </a>
-            </li>
-            <li class="page__pagination--list">
-                <a class="page__pagination--link" href="#">
-                    3
-                </a>
-            </li>
+          
+          
             <li class="page__pagination--list">
                 <a class="page__pagination--link" href="#">
                     <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">

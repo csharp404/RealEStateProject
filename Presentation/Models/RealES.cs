@@ -26,7 +26,7 @@ namespace Presentation.Models
         public ICollection<Favorite>? Favorites { get; set; }
         public ICollection<Comments>? Comments { get; set; }
         public ICollection<RealESImages>? Images{ get; set; }
-
+        public int Views {  get; set; } =0;
         public string RoomID { get; set; }
         public Room Room { get; set; }
 

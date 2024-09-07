@@ -23,7 +23,8 @@
         public string userID {  get; set; }  
         public string RealID {  get; set; }  
        public  ICollection<Comments> Commentslist { get; set; }
-        public string Comment { get; set; } 
-
+        public string Comment { get; set; }
+        public int Views { get; set; }
+        
     }
 }
